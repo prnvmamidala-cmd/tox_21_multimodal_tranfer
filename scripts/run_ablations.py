@@ -13,8 +13,18 @@ from toxtransfer.analysis.summarize import summarize  # noqa: E402
 from toxtransfer.config import load_config  # noqa: E402
 
 
+def _config_arg(argv: list[str]) -> str:
+    if "--config" in argv:
+        index = argv.index("--config")
+        if index + 1 >= len(argv):
+            raise SystemExit("--config requires a path")
+        return argv[index + 1]
+    positional = [arg for arg in argv[1:] if not arg.startswith("-")]
+    return positional[0] if positional else "configs/reduced.yaml"
+
+
 def main() -> None:
-    cfg = load_config(sys.argv[1] if len(sys.argv) > 1 else "configs/reduced.yaml", ROOT)
+    cfg = load_config(_config_arg(sys.argv), ROOT)
     pred = ROOT / "results" / "predictions" / "predictions.csv.gz"
     summarize(pred, cfg, ROOT / "results", report_path=ROOT / "reports" / "results.md")
     print("ablation tables refreshed from saved predictions")

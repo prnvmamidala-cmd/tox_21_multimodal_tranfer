@@ -48,6 +48,9 @@ def load_config(path: str | Path, root: Path | None = None) -> dict[str, Any]:
     if not overlay_path.is_absolute():
         overlay_path = root / overlay_path
     config = deep_update(config, _read_yaml(overlay_path))
-    config["_config_path"] = str(overlay_path)
-    config["_root"] = str(root)
+    try:
+        stored = overlay_path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        stored = overlay_path.name
+    config["_config_path"] = stored
     return config
