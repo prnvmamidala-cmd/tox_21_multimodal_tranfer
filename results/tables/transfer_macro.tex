@@ -1,0 +1,41 @@
+% transfer_macro
+\begin{tabular}{lllll}
+\hline
+model & representation & macro\_spearman & median\_spearman & n\_endpoints \\
+\hline
+postprocess & early\_isotonic\_adult\_oof & 0.0741 & 0.0528 & 12 \\
+postprocess & oracle\_nondeployable & 0.0690 & 0.0629 & 12 \\
+postprocess & chem\_isotonic\_adult\_oof & 0.0588 & 0.0529 & 12 \\
+postprocess & fixed\_50\_50\_chem\_bio & 0.0345 & 0.0402 & 12 \\
+postprocess & late\_global\_chem\_early & 0.0339 & 0.0270 & 12 \\
+postprocess & fixed\_50\_50\_chem\_early & 0.0335 & 0.0234 & 12 \\
+postprocess & late\_endpoint\_chem\_early & 0.0330 & 0.0216 & 12 \\
+postprocess & permuted\_reliability & 0.0323 & 0.0364 & 12 \\
+postprocess & gate\_binary\_coverage & 0.0317 & 0.0249 & 12 \\
+postprocess & chem\_fallback & 0.0314 & 0.0371 & 12 \\
+postprocess & gate\_coverage & 0.0308 & 0.0320 & 12 \\
+postprocess & random\_reliability & 0.0307 & 0.0217 & 12 \\
+rf & chem & 0.0548 & 0.0625 & 12 \\
+rf & chem\_permuted\_bio\_seed\_101 & 0.0516 & 0.0632 & 12 \\
+rf & bio & 0.0428 & 0.0147 & 12 \\
+rf & early & 0.0244 & 0.0719 & 12 \\
+ridge & coral\_chem\_transductive & 0.0985 & 0.1199 & 12 \\
+ridge & bio & 0.0723 & 0.0740 & 12 \\
+ridge & chem\_permuted\_bio\_seed\_303 & 0.0470 & 0.0470 & 12 \\
+ridge & early\_imputed\_no\_indicator & 0.0339 & 0.0374 & 12 \\
+ridge & early & 0.0339 & 0.0270 & 12 \\
+ridge & chem & 0.0314 & 0.0371 & 12 \\
+ridge & chem\_random\_matched & 0.0312 & 0.0395 & 12 \\
+ridge & chem\_permuted\_bio\_seed\_505 & 0.0296 & 0.0297 & 12 \\
+ridge & chem\_permuted\_bio\_seed\_202 & 0.0284 & 0.0396 & 12 \\
+ridge & chem\_permuted\_bio\_seed\_101 & 0.0278 & 0.0392 & 12 \\
+ridge & missingness & 0.0246 & 0.0333 & 12 \\
+ridge & importance\_weighted\_chem\_transductive & 0.0239 & 0.0120 & 12 \\
+ridge & chem\_permuted\_bio\_seed\_404 & 0.0212 & 0.0262 & 12 \\
+ridge & chem\_ylabel\_permuted\_seed\_101 & -0.0348 & -0.0490 & 12 \\
+xgb & early & 0.0552 & 0.0951 & 12 \\
+xgb & bio & 0.0354 & 0.0479 & 12 \\
+xgb & chem\_permuted\_bio\_seed\_101 & 0.0190 & 0.0239 & 12 \\
+xgb & chem & 0.0050 & 0.0328 & 12 \\
+\hline
+\end{tabular}

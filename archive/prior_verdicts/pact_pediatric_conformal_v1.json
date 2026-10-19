@@ -1,0 +1,149 @@
+{
+  "hypothesis": "A small pediatric calibration set can convert unreliable adult-trained drug-safety models into statistically valid uncertainty-aware predictors that know when to abstain on unseen pediatric drugs (PACT).",
+  "verdict": "SUPPORTED",
+  "criteria": {
+    "c1_coverage_close_to_nominal": true,
+    "c2_efficiency_vs_global": true,
+    "c3_selective_beats_random": true,
+    "c4_multi_endpoint": true,
+    "c5_seed_consistency": true,
+    "c6_no_leakage": true
+  },
+  "primary_results": {
+    "n_adult_structures": 2856,
+    "n_ped_structures": 835,
+    "n_endpoints": 15,
+    "split": {
+      "method_development": 167,
+      "conformal_calibration": 167,
+      "final_test": 501
+    },
+    "baseline_chem_xgb_macro_spearman": 0.12439438687676903,
+    "pact_empirical_coverage_90": 0.902354399008674,
+    "global_empirical_coverage_90": 0.9234200743494424,
+    "pact_mean_width_logit_90": 5.251112419682797,
+    "global_mean_width_logit_90": 6.082732016940567,
+    "width_delta_pact_minus_global": -0.8316195972577702,
+    "selective_mae_primary_50": 1.187914639315471,
+    "selective_mae_random_50": 1.2928554933353835,
+    "repeated_split_pact_coverage_mean_std": [
+      0.8972738537794299,
+      0.009152444654226377
+    ],
+    "repeated_split_pact_width_mean_std": [
+      4.96030593913544,
+      0.12927013941060433
+    ]
+  },
+  "bootstrap_highlights": [
+    {
+      "comparison": "PACT_vs_B4_global_coverage",
+      "method_a": "PACT",
+      "method_b": "B4_global",
+      "metric": "coverage",
+      "delta": -0.0210656753407683,
+      "ci_lo": -0.0324342978676304,
+      "ci_hi": -0.0100932273550293,
+      "p": 0.0,
+      "n_boot": 5000,
+      "n_structures": 501,
+      "obs_a": 0.902354399008674,
+      "obs_b": 0.9234200743494424,
+      "effect_size_delta": -0.0210656753407683
+    },
+    {
+      "comparison": "PACT_vs_B4_global_mean_width",
+      "method_a": "PACT",
+      "method_b": "B4_global",
+      "metric": "mean_width",
+      "delta": -0.8316195972577702,
+      "ci_lo": -0.9350857897277836,
+      "ci_hi": -0.7261158744323053,
+      "p": 0.0,
+      "n_boot": 5000,
+      "n_structures": 501,
+      "obs_a": 5.251112419682797,
+      "obs_b": 6.082732016940567,
+      "effect_size_delta": -0.8316195972577702
+    },
+    {
+      "comparison": "PACT_vs_B4_global_mae_ret50",
+      "method_a": "PACT",
+      "method_b": "B4_global",
+      "metric": "mae_ret50",
+      "delta": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "p": 1.0,
+      "n_boot": 5000,
+      "n_structures": 501,
+      "obs_a": 1.187914639315471,
+      "obs_b": 1.187914639315471,
+      "effect_size_delta": 0.0
+    },
+    {
+      "comparison": "PACT_vs_B4_global_mae_ret80",
+      "method_a": "PACT",
+      "method_b": "B4_global",
+      "metric": "mae_ret80",
+      "delta": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "p": 1.0,
+      "n_boot": 5000,
+      "n_structures": 501,
+      "obs_a": 1.2507783301791178,
+      "obs_b": 1.2507783301791178,
+      "effect_size_delta": 0.0
+    },
+    {
+      "comparison": "PACT_vs_B5_mondrian_coverage",
+      "method_a": "PACT",
+      "method_b": "B5_mondrian",
+      "metric": "coverage",
+      "delta": -0.0257744733581164,
+      "ci_lo": -0.0372208746665807,
+      "ci_hi": -0.0144404111247175,
+      "p": 0.0,
+      "n_boot": 5000,
+      "n_structures": 501,
+      "obs_a": 0.902354399008674,
+      "obs_b": 0.9281288723667904,
+      "effect_size_delta": -0.0257744733581164
+    },
+    {
+      "comparison": "PACT_vs_B5_mondrian_mean_width",
+      "method_a": "PACT",
+      "method_b": "B5_mondrian",
+      "metric": "mean_width",
+      "delta": -1.0704947446470523,
+      "ci_lo": -1.180054694691418,
+      "ci_hi": -0.959946295115664,
+      "p": 0.0,
+      "n_boot": 5000,
+      "n_structures": 501,
+      "obs_a": 5.251112419682797,
+      "obs_b": 6.3216071643298495,
+      "effect_size_delta": -1.0704947446470523
+    }
+  ],
+  "notes": [
+    "No formal finite-sample conformal guarantee is claimed under adult\u2192pediatric distribution shift without exchangeability.",
+    "Raw Spearman of the adult point model need not improve; valid UQ, interval efficiency, and selective risk are the primary claims.",
+    "Do not interpret abstention gains as 'PACT improves pediatric safety prediction' merely by discarding hard cases \u2014 report retained coverage with selective metrics.",
+    "Localized / density-ratio variants are empirical adaptations; ordinary and Mondrian split conformal are reported separately."
+  ],
+  "confirmatory_vs_exploratory": {
+    "confirmatory": [
+      "primary split coverage/efficiency/selective",
+      "leakage tests",
+      "repeated-split mean/std"
+    ],
+    "exploratory": [
+      "ablations",
+      "few-shot (not run)",
+      "temporal (skipped \u2014 age strings only)",
+      "density-ratio"
+    ]
+  }
+}

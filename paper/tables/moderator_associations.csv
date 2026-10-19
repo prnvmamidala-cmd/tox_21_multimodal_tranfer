@@ -1,0 +1,6 @@
+moderator,spearman_with_early_minus_chem,n_endpoints,note
+mean_coverage_unseen,-0.5324,12,Exploratory association across endpoints. Not a causal effect.
+frac_scaffold_novel,0.5464,12,Exploratory association across endpoints. Not a causal effect.
+adult_chem_spearman,-0.1119,12,Exploratory association across endpoints. Not a causal effect.
+n_unseen,-0.2312,12,Exploratory association across endpoints. Not a causal effect.
+mean_y_unseen,0.1748,12,Exploratory association across endpoints. Not a causal effect.

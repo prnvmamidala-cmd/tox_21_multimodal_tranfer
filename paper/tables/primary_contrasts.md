@@ -1,0 +1,5 @@
+| contrast | delta | ci_low | ci_high | p_bootstrap |
+| --- | --- | --- | --- | --- |
+| early_minus_chem | 0.0025 | -0.0106 | 0.0149 | 0.6820 |
+| early_minus_perm_mean | 0.0031 | -0.0143 | 0.0213 | 0.7600 |
+| gate_minus_chem | -0.0007 | -0.0029 | 0.0014 | 0.5460 |

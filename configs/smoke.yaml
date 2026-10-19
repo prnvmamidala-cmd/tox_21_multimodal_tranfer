@@ -1,0 +1,20 @@
+name: smoke
+data:
+  dataset: synthetic
+  min_adult_n: 10
+  min_unseen_n: 8
+adult_cv:
+  n_splits: 2
+models:
+  ridge:
+    alpha: 1.0
+    alpha_mode: prespecified
+  rf:
+    enabled: false
+  xgb:
+    enabled: false
+transfer:
+  permutation_seeds: [101]
+  bootstrap_n: 40
+  run_tox21: false
+  pca_components: 4

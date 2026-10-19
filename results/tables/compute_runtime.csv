@@ -1,0 +1,10 @@
+item,value,note
+config,configs/reduced.yaml,confirmatory fit
+fit_git_commit,a9324cf9bcffd5d406cb21b5e70c16f60382d017,recorded in results/run_manifest.json
+manifest_timestamp_utc,2026-10-19T15:29:45Z,process end
+process_start_utc,2026-10-19T15:19:19Z,tmux session start
+wall_clock_seconds,626,includes 15 trial endpoints and Tox21 logistic arm; feature cache already present
+feature_build_seconds_earlier,about 100,not part of the 626s; cache hit on the confirmatory process
+omp_num_threads,4,Linux x86_64
+bootstrap_n,1000,"endpoint percentile interval, seed 0"
+full_config,configs/full.yaml,not executed

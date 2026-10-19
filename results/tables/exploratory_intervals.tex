@@ -1,0 +1,19 @@
+% exploratory_intervals
+\begin{tabular}{llllllll}
+\hline
+quantity & label & role & estimate & ci\_low & ci\_high & p\_bootstrap & n \\
+\hline
+spearman\_chem & macro Spearman, chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0314 & -0.0165 & 0.0828 & 0.2180 & 12 \\
+spearman\_early & macro Spearman, early fusion & exploratory\_not\_in\_confirmatory\_family & 0.0339 & -0.0165 & 0.0856 & 0.2180 & 12 \\
+spearman\_bio & macro Spearman, biology only & exploratory\_not\_in\_confirmatory\_family & 0.0723 & 0.0042 & 0.1441 & 0.0420 & 12 \\
+spearman\_missingness & macro Spearman, missingness only & exploratory\_not\_in\_confirmatory\_family & 0.0246 & -0.0381 & 0.0821 & 0.4040 & 12 \\
+spearman\_coral\_chem\_transductive & macro Spearman, CORAL chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0985 & 0.0172 & 0.1753 & 0.0260 & 12 \\
+spearman\_importance\_weighted\_chem\_transductive & macro Spearman, importance-weighted chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0239 & -0.0154 & 0.0639 & 0.2360 & 12 \\
+adult\_chem\_spearman & macro adult-scaffold Spearman, chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0220 & 0.0092 & 0.0386 & 0.0000 & 12 \\
+delta\_bio & biology minus chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0409 & -0.0383 & 0.1220 & 0.3420 & 12 \\
+delta\_missingness & missingness minus chemistry & exploratory\_not\_in\_confirmatory\_family & -0.0068 & -0.0747 & 0.0739 & 0.8700 & 12 \\
+delta\_coral\_chem\_transductive & CORAL chemistry minus chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0671 & -0.0588 & 0.1711 & 0.2840 & 12 \\
+delta\_importance\_weighted\_chem\_transductive & importance-weighted chemistry minus chemistry & exploratory\_not\_in\_confirmatory\_family & -0.0075 & -0.0469 & 0.0249 & 0.7120 & 12 \\
+delta\_early\_imputed\_no\_indicator & early fusion without indicators minus chemistry & exploratory\_not\_in\_confirmatory\_family & 0.0025 & -0.0041 & 0.0100 & 0.5280 & 12 \\
+\hline
+\end{tabular}

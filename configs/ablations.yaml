@@ -1,0 +1,6 @@
+ablations:
+  early_without_missingness: true
+  isotonic_calibration: true
+  coverage_strata: true
+  scaffold_unseen_slice: true
+  seen_structure_slice: descriptive_only
