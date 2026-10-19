@@ -1,0 +1,9 @@
+data:
+  dataset: ctgov
+  ctgov_dir: data/raw/ctgov_v3
+  interim_dir: data/interim/ctgov
+  tox21_path: data/raw/tox21/tox21.csv.gz
+  tox21_url: https://deepchemdata.s3-us-west-1.amazonaws.com/datasets/tox21.csv.gz
+  min_adult_n: 200
+  min_unseen_n: 40
+  eligibility_sensitivity: [20, 60]

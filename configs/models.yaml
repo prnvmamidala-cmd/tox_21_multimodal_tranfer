@@ -1,0 +1,26 @@
+models:
+  ridge:
+    alpha: 10.0
+    alpha_mode: prespecified
+    alphas: [0.1, 1.0, 10.0, 100.0]
+  rf:
+    enabled: true
+    adult_oof: false
+    n_estimators: 40
+    max_depth: 12
+    min_samples_leaf: 5
+    representations:
+      - chem
+      - bio
+      - early
+      - chem_permuted_bio_seed_101
+  xgb:
+    enabled: true
+    adult_oof: false
+    n_estimators: 40
+    max_depth: 3
+    learning_rate: 0.1
+    representations:
+      - chem
+      - early
+      - chem_permuted_bio_seed_101
