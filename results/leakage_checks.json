@@ -1,0 +1,81 @@
+{
+  "folds": [
+    {
+      "endpoint": "ANY_OTHER_AE",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "ANY_SERIOUS",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "CARDIAC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "CONGENITAL_DEVELOPMENTAL",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "DERMATOLOGIC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "ENDOCRINE_METABOLIC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "GASTROINTESTINAL",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "HEMATOLOGIC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "HEPATIC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "IMMUNE_INFECTION",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "MORTALITY",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "NEUROLOGIC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "PSYCHIATRIC",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "RENAL",
+      "n_folds": 5
+    },
+    {
+      "endpoint": "RESPIRATORY",
+      "n_folds": 5
+    }
+  ],
+  "permutation": {
+    "preserves_multiset": true,
+    "shape": [
+      2281,
+      30
+    ],
+    "order_changed": true
+  },
+  "preprocess": {
+    "train_median_stable": true,
+    "n_train": 2281,
+    "n_test_unused": 571
+  },
+  "unseen": {
+    "n_overlap": 0,
+    "n_test": 107
+  }
+}

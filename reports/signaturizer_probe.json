@@ -1,0 +1,5 @@
+{
+  "status": "blocked",
+  "reason": "signaturizer is not importable in this environment (ModuleNotFoundError: No module named 'signaturizer'). Chemical Checker signature matrices were not regenerated. Notebook 2's prior Tox21 multimodal numbers remain archived exploratory results and are not re-executed.",
+  "attempted_import": true
+}

@@ -1,0 +1,16 @@
+% compute_runtime
+\begin{tabular}{lll}
+\hline
+item & value & note \\
+\hline
+config & configs/reduced.yaml & confirmatory fit \\
+fit\_git\_commit & a9324cf9bcffd5d406cb21b5e70c16f60382d017 & recorded in results/run\_manifest.json \\
+manifest\_timestamp\_utc & 2026-10-19T15:29:45Z & process end \\
+process\_start\_utc & 2026-10-19T15:19:19Z & tmux session start \\
+wall\_clock\_seconds & 626 & includes 15 trial endpoints and Tox21 logistic arm; feature cache already present \\
+feature\_build\_seconds\_earlier & about 100 & not part of the 626s; cache hit on the confirmatory process \\
+omp\_num\_threads & 4 & Linux x86\_64 \\
+bootstrap\_n & 1000 & endpoint percentile interval, seed 0 \\
+full\_config & configs/full.yaml & not executed \\
+\hline
+\end{tabular}

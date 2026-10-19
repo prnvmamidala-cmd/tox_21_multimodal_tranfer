@@ -26,6 +26,13 @@ from toxtransfer.statistics.inference import (
 from toxtransfer.visualization.figures import make_figures
 
 
+def _as_float(value: object) -> float:
+    try:
+        return float(value)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        return float("nan")
+
+
 def _fmt(value: float) -> str:
     if value is None or not np.isfinite(value):
         return "NA"
@@ -395,7 +402,8 @@ def summarize(pred_path: Path, cfg: dict, output_dir: Path, report_path: Path | 
     make_figures(output_dir / "figures", metrics, endpoint_df, eligible_df, fused, characterization, claims)
     if report_path is not None:
         report_path.parent.mkdir(parents=True, exist_ok=True)
-        report_path.write_text(_report(claims, eligible_df, characterization) + "\n")
+        tox21 = _load_tox21(output_dir)
+        report_path.write_text(_report(claims, eligible_df, characterization, tox21) + "\n")
     return claims
 
 
@@ -478,6 +486,8 @@ def _claims(eligible_df, endpoint_df, metrics, cfg, fusion_info, characterizatio
             }
         )
     moderators = _moderators(eligible_df)
+    exploratory = _exploratory_intervals(eligible_df, n_boot, seed0)
+    slice_rows = _slice_rows(metrics, eligible_df["endpoint"].tolist() if len(eligible_df) else [])
     return {
         "status": "computed_from_saved_predictions",
         "primary_slice": "structure_unseen",
@@ -504,13 +514,98 @@ def _claims(eligible_df, endpoint_df, metrics, cfg, fusion_info, characterizatio
         "wilcoxon_note": wilcox["note"],
         "eligibility_sensitivity": sensitivity,
         "moderators_exploratory": moderators,
+        "exploratory_intervals": exploratory,
+        "slice_macros_exploratory": slice_rows,
         "late_global_weight": fusion_info["late_global_weight"],
+        "late_global_weight_meaning": (
+            "Weight g in (1-g)*chemistry + g*early, chosen on adult scaffold "
+            "out-of-fold Spearman. g=1 uses early fusion only."
+        ),
         "n_structure_overlap": characterization.get("n_structure_overlap"),
         "n_structure_unseen_compounds": characterization.get("n_structure_unseen"),
         "bio_mean_missingness": characterization.get("bio_mean_missingness"),
         "bio_n_targets": characterization.get("bio_n_targets"),
         "interpretation": _interpretation(early, perm, gate, multimodal, gate_gain, gate_nt, nt_early, nt_gate),
     }
+
+
+def _slice_rows(metrics: pd.DataFrame, endpoints: list[str]) -> list[dict]:
+    reps = ("chem", "early", "bio")
+    slices = (
+        "structure_seen",
+        "structure_unseen",
+        "scaffold_unseen",
+        "unseen_coverage_positive",
+        "unseen_coverage_zero",
+        "all_pediatric",
+    )
+    piece = metrics.loc[
+        (metrics["phase"] == "transfer")
+        & (metrics["model"] == "ridge")
+        & (metrics["endpoint"].isin(endpoints))
+        & (metrics["representation"].isin(reps))
+        & (metrics["slice"].isin(slices))
+    ]
+    rows = []
+    for (slice_name, representation), sub in piece.groupby(["slice", "representation"]):
+        rows.append(
+            {
+                "slice": slice_name,
+                "representation": representation,
+                "macro_spearman": float(sub["spearman"].mean()),
+                "mean_n": float(sub["n"].mean()),
+                "n_endpoints": int(sub["endpoint"].nunique()),
+                "role": "exploratory_slice",
+            }
+        )
+    return rows
+
+
+def _exploratory_intervals(eligible_df: pd.DataFrame, n_boot: int, seed0: int) -> list[dict]:
+    """Endpoint bootstrap intervals that are not in the confirmatory family.
+
+    Seeds start at seed0+11 so they do not reuse the three primary seeds.
+    """
+    quantities = (
+        ("spearman_chem", "macro Spearman, chemistry"),
+        ("spearman_early", "macro Spearman, early fusion"),
+        ("spearman_bio", "macro Spearman, biology only"),
+        ("spearman_missingness", "macro Spearman, missingness only"),
+        ("spearman_coral_chem_transductive", "macro Spearman, CORAL chemistry"),
+        (
+            "spearman_importance_weighted_chem_transductive",
+            "macro Spearman, importance-weighted chemistry",
+        ),
+        ("adult_chem_spearman", "macro adult-scaffold Spearman, chemistry"),
+        ("delta_bio", "biology minus chemistry"),
+        ("delta_missingness", "missingness minus chemistry"),
+        ("delta_coral_chem_transductive", "CORAL chemistry minus chemistry"),
+        (
+            "delta_importance_weighted_chem_transductive",
+            "importance-weighted chemistry minus chemistry",
+        ),
+        ("delta_early_imputed_no_indicator", "early fusion without indicators minus chemistry"),
+    )
+    rows = []
+    if eligible_df.empty:
+        return rows
+    for offset, (column, label) in enumerate(quantities, start=11):
+        if column not in eligible_df.columns:
+            continue
+        stats = _bootstrap_mean(eligible_df[column].to_numpy(), n_boot, seed0 + offset)
+        rows.append(
+            {
+                "quantity": column,
+                "label": label,
+                "role": "exploratory_not_in_confirmatory_family",
+                "estimate": stats["estimate"],
+                "ci_low": stats["ci_low"],
+                "ci_high": stats["ci_high"],
+                "p_bootstrap": stats["p_bootstrap"],
+                "n": stats["n"],
+            }
+        )
+    return rows
 
 
 def _moderators(eligible_df: pd.DataFrame) -> list[dict]:
@@ -580,7 +675,16 @@ def _sentence(name: str, block: dict) -> str:
     return f"{name}: delta {_fmt(delta)} (95% CI {_fmt(lo)} to {_fmt(hi)}; the interval {where})."
 
 
-def _report(claims: dict, eligible_df: pd.DataFrame, characterization: dict) -> str:
+def _load_tox21(output_dir: Path) -> dict | None:
+    path = output_dir / "metrics" / "tox21_summary.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+def _report(
+    claims: dict, eligible_df: pd.DataFrame, characterization: dict, tox21: dict | None = None
+) -> str:
     lines = [
         "# Results",
         "",
@@ -596,7 +700,7 @@ def _report(claims: dict, eligible_df: pd.DataFrame, characterization: dict) -> 
         f"Structure overlap (all endpoints, compound level): {characterization.get('n_structure_overlap')} shared, "
         f"{characterization.get('n_structure_unseen')} pediatric-only.",
         f"ChEMBL target-profile width: {characterization.get('bio_n_targets')} targets; "
-        f"mean missingness {characterization.get('bio_mean_missingness')}.",
+        f"mean missingness {_fmt(_as_float(characterization.get('bio_mean_missingness')))}.",
         "",
         "## Confirmatory contrasts",
         "",
@@ -607,8 +711,12 @@ def _report(claims: dict, eligible_df: pd.DataFrame, characterization: dict) -> 
         "",
         claims["interpretation"],
         "",
-        f"Benjamini–Hochberg q-values for the three macro bootstrap tests "
-        f"(early−chem, early−permutation, gate−chem): {claims['bh_q_early_perm_gate']}.",
+        "Benjamini–Hochberg q-values for the three macro bootstrap tests "
+        "(early−chem, early−permutation, gate−chem): "
+        + ", ".join(_fmt(v) for v in claims["bh_q_early_perm_gate"])
+        + ".",
+        f"Adult out-of-fold weight on early fusion: {_fmt(float(claims['late_global_weight']))}. "
+        f"{claims.get('late_global_weight_meaning', '')}",
         f"Wilcoxon signed-rank p on endpoint early−chem deltas: {_fmt(claims['wilcoxon_early_minus_chem_p'])}. "
         f"{claims['wilcoxon_note']}",
         "",
@@ -656,6 +764,64 @@ def _report(claims: dict, eligible_df: pd.DataFrame, characterization: dict) -> 
             lines.append(
                 f"- {row['endpoint']}: n={int(row['n_unseen'])}, chem {_fmt(row['spearman_chem'])}, "
                 f"early {_fmt(row['spearman_early'])}, delta {_fmt(row['delta_early'])}"
+            )
+    lines.extend(
+        [
+            "",
+            "## Exploratory intervals",
+            "",
+            "These endpoint-bootstrap intervals are not in the three-test confirmatory family and are not Benjamini–Hochberg adjusted with those tests.",
+            "CORAL and importance weighting use unlabeled pediatric chemistry. Adult Spearman is the in-domain scaffold out-of-fold result on the same eligible endpoints.",
+            "",
+        ]
+    )
+    for row in claims.get("exploratory_intervals", []):
+        lines.append(
+            f"- {row['label']}: {_fmt(row['estimate'])} "
+            f"(95% CI {_fmt(row['ci_low'])} to {_fmt(row['ci_high'])}; n={row['n']})."
+        )
+    lines.extend(
+        [
+            "",
+            "## Other slices (exploratory)",
+            "",
+            "Structure-seen rows are the same InChIKey in an adult trial and a pediatric trial. They are continuity, not the primary generalization test. Scaffold-unseen is a sensitivity slice. Coverage strata split the structure-unseen rows.",
+            "",
+        ]
+    )
+    for row in claims.get("slice_macros_exploratory", []):
+        lines.append(
+            f"- {row['slice']} / {row['representation']}: macro Spearman {_fmt(row['macro_spearman'])}, "
+            f"mean n {_fmt(row['mean_n'])}, endpoints {row['n_endpoints']}."
+        )
+    lines.extend(["", "## Tox21 chemical arm", ""])
+    if not tox21:
+        lines.append(
+            "Not included in this summary file. If `data/raw/tox21/tox21.csv.gz` is present, "
+            "`scripts/reproduce_all.py` writes `results/metrics/tox21_summary.json` after the trial summary."
+        )
+    else:
+        lines.append(tox21.get("note", ""))
+        lines.append(
+            f"Compounds: {tox21.get('n_compounds')}. Labels: {tox21.get('n_labels')}. "
+            f"Biological signatures: {tox21.get('bio_signatures')}. {tox21.get('bio_reason', '')}"
+        )
+        for phase in ("scaffold_oof", "random_oof"):
+            block = tox21.get(phase)
+            if not isinstance(block, dict):
+                continue
+            lines.append(
+                f"- {phase}: macro AUROC {_fmt(block.get('macro_auroc'))}, "
+                f"macro AUPRC {_fmt(block.get('macro_auprc'))}, "
+                f"NR macro AUROC {_fmt(block.get('nr_macro_auroc'))}, "
+                f"SR macro AUROC {_fmt(block.get('sr_macro_auroc'))}, "
+                f"tasks {block.get('n_tasks')}."
+            )
+        if "random_minus_scaffold_macro_auroc" in tox21:
+            lines.append(
+                "Random minus scaffold macro AUROC: "
+                f"{_fmt(tox21['random_minus_scaffold_macro_auroc'])}. "
+                "This is an optimistic-split gap, not a transfer result."
             )
     lines.append("")
     return "\n".join(lines)
@@ -749,5 +915,128 @@ def _write_supporting_tables(output_dir, metrics, endpoint_df, eligible_df, clai
     write_table(claim_table, "primary_contrasts", table_dir, paper)
     write_table(pd.DataFrame(claims.get("eligibility_sensitivity", [])), "eligibility_sensitivity", table_dir, paper)
     write_table(pd.DataFrame(claims.get("moderators_exploratory", [])), "moderator_associations", table_dir, paper)
-    # Silence unused in case a caller inspects cfg.
-    _ = cfg
+    write_table(pd.DataFrame(claims.get("exploratory_intervals", [])), "exploratory_intervals", table_dir, paper)
+    _write_grouped_macro(metrics, claims, "adult_oof", "adult_scaffold_oof", "ridge", "adult_indomain", table_dir, paper)
+    _write_grouped_macro(
+        metrics, claims, "target_reference", "target_reference_holdout", "ridge", "target_reference", table_dir, paper
+    )
+    _write_slice_macro(metrics, claims, table_dir, paper)
+    write_table(_hyperparameter_frame(cfg), "hyperparameters", table_dir, paper)
+    write_table(
+        pd.DataFrame(
+            [
+                {
+                    "bio_n_targets": characterization.get("bio_n_targets"),
+                    "bio_mean_coverage": characterization.get("bio_mean_coverage"),
+                    "bio_mean_missingness": characterization.get("bio_mean_missingness"),
+                    "bio_frac_any_observed": characterization.get("bio_frac_any_observed"),
+                    "n_chem_features": characterization.get("n_chem_features"),
+                    "note": "Coverage is 1 minus mean target missingness. Indicators are fit without using labels.",
+                }
+            ]
+        ),
+        "representation_coverage",
+        table_dir,
+        paper,
+    )
+    tox21_path = output_dir / "metrics" / "tox21_summary.json"
+    if tox21_path.exists():
+        payload = json.loads(tox21_path.read_text())
+        tasks = pd.DataFrame(payload.get("tasks", []))
+        if len(tasks):
+            keep = [
+                c
+                for c in (
+                    "phase",
+                    "task",
+                    "family",
+                    "auroc",
+                    "auprc",
+                    "mcc",
+                    "balanced_accuracy",
+                    "brier",
+                    "ece",
+                    "sensitivity",
+                    "specificity",
+                    "n",
+                    "n_positive",
+                    "prevalence",
+                )
+                if c in tasks.columns
+            ]
+            write_table(tasks[keep], "tox21_tasks", table_dir, paper)
+
+
+def _write_grouped_macro(metrics, claims, phase, slice_name, model, stem, table_dir, paper) -> None:
+    piece = metrics.loc[
+        (metrics["phase"] == phase)
+        & (metrics["slice"] == slice_name)
+        & (metrics["model"] == model)
+        & (metrics["endpoint"].isin(claims["eligible_endpoints"]))
+    ]
+    rows = []
+    for representation, sub in piece.groupby("representation"):
+        rows.append(
+            {
+                "phase": phase,
+                "slice": slice_name,
+                "model": model,
+                "representation": representation,
+                "macro_spearman": float(sub["spearman"].mean()),
+                "median_spearman": float(sub["spearman"].median()),
+                "macro_rmse": float(sub["rmse"].mean()) if "rmse" in sub else float("nan"),
+                "n_endpoints": int(sub["endpoint"].nunique()),
+            }
+        )
+    if rows:
+        frame = pd.DataFrame(rows).sort_values("macro_spearman", ascending=False)
+        write_table(frame, stem, table_dir, paper)
+
+
+def _write_slice_macro(metrics, claims, table_dir, paper) -> None:
+    reps = ["chem", "early", "bio", "missingness", "coral_chem_transductive"]
+    piece = metrics.loc[
+        (metrics["phase"] == "transfer")
+        & (metrics["model"] == "ridge")
+        & (metrics["endpoint"].isin(claims["eligible_endpoints"]))
+        & (metrics["representation"].isin(reps))
+    ]
+    rows = []
+    for (slice_name, representation), sub in piece.groupby(["slice", "representation"]):
+        rows.append(
+            {
+                "slice": slice_name,
+                "representation": representation,
+                "macro_spearman": float(sub["spearman"].mean()),
+                "mean_n": float(sub["n"].mean()),
+                "n_endpoints": int(sub["endpoint"].nunique()),
+            }
+        )
+    if rows:
+        write_table(pd.DataFrame(rows), "slice_macro", table_dir, paper)
+
+
+def _hyperparameter_frame(cfg: dict) -> pd.DataFrame:
+    ridge = cfg["models"]["ridge"]
+    rf = cfg["models"]["rf"]
+    xgb = cfg["models"]["xgb"]
+    transfer = cfg["transfer"]
+    rows = [
+        {"item": "ridge_alpha", "value": ridge.get("alpha"), "role": "prespecified confirmatory"},
+        {"item": "ridge_alpha_mode", "value": ridge.get("alpha_mode"), "role": "not tuned on the transfer test"},
+        {"item": "ridge_alpha_grid_full_only", "value": str(ridge.get("alphas")), "role": "full.yaml only"},
+        {"item": "rf_n_estimators", "value": rf.get("n_estimators"), "role": "robustness"},
+        {"item": "rf_max_depth", "value": rf.get("max_depth"), "role": "robustness"},
+        {"item": "rf_min_samples_leaf", "value": rf.get("min_samples_leaf"), "role": "robustness"},
+        {"item": "rf_adult_oof", "value": rf.get("adult_oof"), "role": "reduced run"},
+        {"item": "xgb_n_estimators", "value": xgb.get("n_estimators"), "role": "robustness"},
+        {"item": "xgb_max_depth", "value": xgb.get("max_depth"), "role": "robustness"},
+        {"item": "xgb_learning_rate", "value": xgb.get("learning_rate"), "role": "robustness"},
+        {"item": "bootstrap_n", "value": transfer.get("bootstrap_n"), "role": "endpoint percentile interval"},
+        {"item": "bootstrap_seed", "value": transfer.get("bootstrap_seed"), "role": "endpoint percentile interval"},
+        {"item": "permutation_seeds", "value": str(transfer.get("permutation_seeds")), "role": "training-row biology permutation"},
+        {"item": "pca_components", "value": transfer.get("pca_components"), "role": "CORAL, transductive"},
+        {"item": "min_adult_n", "value": cfg["data"].get("min_adult_n"), "role": "eligibility, frozen"},
+        {"item": "min_unseen_n", "value": cfg["data"].get("min_unseen_n"), "role": "eligibility, frozen"},
+    ]
+    return pd.DataFrame(rows)

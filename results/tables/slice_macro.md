@@ -1,0 +1,32 @@
+| slice | representation | macro_spearman | mean_n | n_endpoints |
+| --- | --- | --- | --- | --- |
+| all_pediatric | bio | 0.0766 | 514.3333 | 12 |
+| all_pediatric | chem | 0.1434 | 514.3333 | 12 |
+| all_pediatric | coral_chem_transductive | 0.0572 | 514.3333 | 12 |
+| all_pediatric | early | 0.1480 | 514.3333 | 12 |
+| all_pediatric | missingness | 0.0538 | 514.3333 | 12 |
+| scaffold_unseen | bio | 0.0582 | 84.8333 | 12 |
+| scaffold_unseen | chem | 0.0180 | 84.8333 | 12 |
+| scaffold_unseen | coral_chem_transductive | 0.1126 | 84.8333 | 12 |
+| scaffold_unseen | early | 0.0183 | 84.8333 | 12 |
+| scaffold_unseen | missingness | 0.0304 | 84.8333 | 12 |
+| structure_seen | bio | 0.0837 | 404.6667 | 12 |
+| structure_seen | chem | 0.1923 | 404.6667 | 12 |
+| structure_seen | coral_chem_transductive | 0.0438 | 404.6667 | 12 |
+| structure_seen | early | 0.1959 | 404.6667 | 12 |
+| structure_seen | missingness | 0.0626 | 404.6667 | 12 |
+| structure_unseen | bio | 0.0723 | 109.6667 | 12 |
+| structure_unseen | chem | 0.0314 | 109.6667 | 12 |
+| structure_unseen | coral_chem_transductive | 0.0985 | 109.6667 | 12 |
+| structure_unseen | early | 0.0339 | 109.6667 | 12 |
+| structure_unseen | missingness | 0.0246 | 109.6667 | 12 |
+| unseen_coverage_positive | bio | 0.1843 | 24.0000 | 12 |
+| unseen_coverage_positive | chem | 0.2040 | 24.0000 | 12 |
+| unseen_coverage_positive | coral_chem_transductive | 0.0850 | 24.0000 | 12 |
+| unseen_coverage_positive | early | 0.1831 | 24.0000 | 12 |
+| unseen_coverage_positive | missingness | 0.1457 | 24.0000 | 12 |
+| unseen_coverage_zero | bio |  | 85.6667 | 12 |
+| unseen_coverage_zero | chem | -0.0093 | 85.6667 | 12 |
+| unseen_coverage_zero | coral_chem_transductive | 0.0986 | 85.6667 | 12 |
+| unseen_coverage_zero | early | -0.0081 | 85.6667 | 12 |
+| unseen_coverage_zero | missingness |  | 85.6667 | 12 |
