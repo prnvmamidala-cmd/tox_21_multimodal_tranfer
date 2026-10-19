@@ -1,0 +1,33 @@
+{
+  "hypothesis": "Age-conditioned enzyme ontogeny features F=W*O(a) improve adult\u2192pediatric AE incidence transfer vs static chem",
+  "computational_status": "COMPLETE (v4 preliminary)",
+  "scientific_support": "REJECTS / does not support age-conditioned ontogeny benefit under pre-specified criteria (clean null preferred)",
+  "support_label": "rejects",
+  "classification": "NO_SUPPORTED_BENEFIT",
+  "phase2_proceed": false,
+  "phase2_reason": "Preliminary does NOT meet success criteria; STOP \u2014 no fishing, no Phase 2",
+  "criteria": {
+    "c1_improves_over_chem": false,
+    "c2_ci_or_consistency": false,
+    "c3_beats_controls": false,
+    "c4_not_single_endpoint": false,
+    "c5_mechanistically_plausible_direction": false,
+    "all": false
+  },
+  "primary_macro": {
+    "chem_mean_spearman": 0.12401913447271315,
+    "chem_ontogeny_mean_spearman": 0.11573285418152325,
+    "chem_exposure_multiplier_mean_spearman": 0.1241633377448224,
+    "delta_ontogeny_minus_chem": -0.008286280291189899,
+    "frac_endpoints_delta_pos": 0.3333333333333333,
+    "frac_endpoints_ci_lo_pos": 0.0,
+    "any_bh_sig_positive": false
+  },
+  "control_macro_means": {
+    "perm_enzyme": 0.11932002804938405,
+    "perm_age": 0.11617127331283286,
+    "adult_assigned": 0.11672069813881254,
+    "perm_ontogeny_row": 0.11606083274493036
+  },
+  "note": "Do NOT claim ontogeny helps unless criteria met. Null is valid."
+}

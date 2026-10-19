@@ -1,0 +1,98 @@
+{
+  "project": "DART",
+  "verdict": "PARTIALLY_SUPPORTED",
+  "n_criteria_passed": 4,
+  "n_criteria_total": 9,
+  "criteria": {
+    "1_beats_baseline": {
+      "pass": false,
+      "dart": 0.5307604311546219,
+      "best_baseline": "B4_separate_age_group",
+      "best_metric": 0.6640382197014868
+    },
+    "2_paired_CI": {
+      "pass": false,
+      "delta": -0.08390175518021947,
+      "ci_lo": -0.09819436019901269,
+      "ci_hi": -0.0703162967089501,
+      "p": 0.0,
+      "n_boot": 5000
+    },
+    "3_seed_consistency": {
+      "pass": true,
+      "seed_dev_metrics": [
+        0.5165829580256661,
+        0.5081126956326897,
+        0.5205998247841258
+      ]
+    },
+    "4_neonatal_infant": {
+      "pass": false,
+      "delta_neo_infant": -0.0397390594601342,
+      "delta_other": -0.0685300916215421
+    },
+    "5_shuffled_age": {
+      "pass": true,
+      "real_adv": -0.1332777885468649,
+      "shuf_adv": NaN,
+      "shuffle_pack": {
+        "B4_shuffled_wSpear": 0.6260432033878743,
+        "B9_shuffled_wSpear": 0.651621115612538,
+        "B2_shuffled_wSpear": 0.6512413364100751,
+        "note": "Age-aware advantage should diminish under shuffled-age training; reporting signal framing unchanged."
+      }
+    },
+    "6_unseen_or_temporal": {
+      "pass": false,
+      "improves_unseen_drug": false,
+      "improves_unseen_scaffold": false,
+      "unseen_drug_n": 0,
+      "unseen_scaffold_n": 0
+    },
+    "7_calibration": {
+      "pass": true,
+      "cal": {
+        "DART": 0.031276605445188156,
+        "B4_separate_age_group": 0.27459246055785014
+      }
+    },
+    "8_not_high_volume": {
+      "pass": true,
+      "full_spearman": 0.5902836100732279,
+      "without_top_drugs_spearman": 0.5883291666809661,
+      "n_drugs_dropped": 14,
+      "dropped_drugs_sample": [
+        "DUPILUMAB",
+        "LENALIDOMIDE",
+        "VEDOLIZUMAB",
+        "SEMAGLUTIDE",
+        "EVOLOCUMAB",
+        "HUMAN IMMUNOGLOBULIN G",
+        "ADALIMUMAB",
+        "OMALIZUMAB",
+        "RITUXIMAB",
+        "RISANKIZUMAB-RZAA"
+      ],
+      "without_top_events_spearman": 0.5850890913014238,
+      "n_events_dropped": 14
+    },
+    "9_known_signals": {
+      "pass": false,
+      "dart_mean_gap": 0.26423385366797447,
+      "baseline_mean_gap": 0.914189155694267
+    }
+  },
+  "frozen_success_criteria_sha_note": "See config/success_criteria.json (frozen before final-test inspection)",
+  "language": "Outcomes are FAERS pharmacovigilance reporting signals (age-specific drug\u2013event reporting associations), not incidence, causal effects, or confirmed ADRs.",
+  "generated_at": "2026-09-26T17:08:36.950880-07:00",
+  "notes": "resume after bootstrap fix; count-based PS min_year=2018 medium 300x300; full ASCII downloaded+parsed",
+  "primary_metric": "reliability_weighted_macro_Spearman",
+  "best_baseline": "B4_separate_age_group",
+  "dart_metric": 0.5307604311546219,
+  "delta": -0.08390175518021947,
+  "delta_ci": [
+    -0.09819436019901269,
+    -0.0703162967089501
+  ],
+  "delta_p": 0.0
+}

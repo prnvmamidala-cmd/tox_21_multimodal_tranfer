@@ -1,0 +1,91 @@
+{
+  "verdict": "NOT_SUPPORTED",
+  "hypothesis": "Reliability-gated, endpoint-specific biology improves few-shot adult\u2192ped transfer when bio beyond chem; missing\u2260inactive; endpoint-matched; trial context; residual correction; learn when bio reliable.",
+  "reason": "STOP/GO failed \u2014 full point-prediction fusion not run or residual/coverage inadequate.",
+  "stop_go": {
+    "proceed_full_react_fuse": false,
+    "coverage_pass": true,
+    "residual_pass": false,
+    "coverage_summary": {
+      "ped_useful_frac": 0.5676646706586826,
+      "ped_highconf_frac": 0.5676646706586826
+    },
+    "residual_summary": {
+      "real_ortho_bio": -0.047661539271509866,
+      "shuffled_bio": -0.04535286676646787,
+      "missingness_alone": -0.0491035625472795,
+      "confidence_alone": -0.0491035625472795
+    },
+    "residual_bootstrap": {
+      "real_minus_shuffled": {
+        "delta": -0.0023086725050419994,
+        "ci_lo": -0.008203096946474513,
+        "ci_hi": 0.0034752507127334973,
+        "p_gt0": 0.228,
+        "n": 15
+      },
+      "real_minus_missingness": {
+        "delta": 0.0014420232757696402,
+        "ci_lo": -0.004663297198669476,
+        "ci_hi": 0.00780283027640802,
+        "p_gt0": 0.705,
+        "n": 15
+      },
+      "real_minus_confidence": {
+        "delta": 0.0014420232757696402,
+        "ci_lo": -0.004373637722167303,
+        "ci_hi": 0.007529991000266601,
+        "p_gt0": 0.695,
+        "n": 15
+      }
+    },
+    "if_fail_actions": [
+      "stop_point_prediction_fusion",
+      "optional_bio_as_UQ_in_PACT_secondary",
+      "diagnostic_report",
+      "verdict_DATA_INADEQUATE_or_NOT_SUPPORTED"
+    ],
+    "rationale": "Full REACT-Fuse point-prediction fusion allowed only if bio coverage adequate AND real bio predicts chem residuals better than shuffled/missingness/confidence.",
+    "status": "STOP",
+    "verdict_hint": "NOT_SUPPORTED",
+    "coverage_reaudit_note": "Coverage re-audited after excluding miss_/conf_ indicator columns wrongly counted as useful biology.",
+    "AI_addendum": "exploratory_lightweight_under_STOP"
+  },
+  "criteria": {
+    "c1_react_beats_chem": false,
+    "c2_beats_shuffled": false,
+    "c3_beats_missingness": false,
+    "c4_beats_param_matched_chem": false,
+    "c5_not_only_missingness": false,
+    "c6_multi_endpoint_or_ci": false,
+    "all": false
+  },
+  "note": "Do NOT claim bio helps. Residual gate failed (real \u2248 shuffled/missingness). Balanced multimodal claims require beating capacity-matched chem + controls.",
+  "AI_addendum_status": "exploratory_lightweight",
+  "AI_addendum_note": "A\u2013I run as lightweight diagnostics under STOP/GO failure; eval_pool already inspected \u2014 not confirmatory.",
+  "coverage_reaudited": 0.5676646706586826,
+  "AI_capacity_macros_exploratory": {
+    "balanced_encoders_sum": -0.13554203656395725,
+    "balanced_endpoint_gated": 0.03670125488886254,
+    "balanced_gated": -0.03467448528752088,
+    "balanced_gated_ctx_concat": -0.2250001687745939,
+    "bio_only": 0.10886579194233498,
+    "chem_only_capacity_matched": 0.14466623555313793,
+    "missingness_only": -0.1502107275616163,
+    "naive_concat": 0.11601406550307848,
+    "shuffled_bio_rows": -0.11917681451836812
+  },
+  "AI_strict_criteria_exploratory": {
+    "beats_capacity_matched_chem": false,
+    "beats_naive_concat": false,
+    "beats_shuffled": true,
+    "beats_missingness": true,
+    "all_strict": false
+  },
+  "AI_claim": "NO \u2014 balanced multimodal does not meet strict help criteria on full cohort (exploratory).",
+  "AI_dominance_summary": {
+    "mean_dpred_mask_bio": 1.1237940577169259,
+    "mean_grad_bio": 1137.5734014054224,
+    "frac_bio_ignored": 0.0
+  }
+}
