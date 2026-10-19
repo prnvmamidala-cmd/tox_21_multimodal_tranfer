@@ -19,3 +19,7 @@ confirmatory implementation.
 `archive/ctgov_v3/transfer_metrics.csv` is a historical result table. It is
 not reproduced by `scripts/reproduce_all.py` and is not a source of numbers
 for `reports/results.md`.
+
+Some archived scripts contain absolute paths from the machine where the prior
+pipeline ran. Those scripts are not imported by `src/toxtransfer` and are not
+an entry point. The reproduction commands are under `scripts/`.

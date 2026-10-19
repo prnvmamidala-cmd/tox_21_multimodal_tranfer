@@ -35,3 +35,25 @@
 14. Tox21-to-FAERS was not given a performance number. The historical probes
     are endpoint-mismatched.
 15. Nothing here is a clinical decision tool.
+16. On the primary slice, chemistry's own macro Spearman interval includes 0
+    (0.0314, 95% CI -0.0165 to 0.0828). A multimodal null on a near-null
+    chemical baseline says little about fusion when chemistry actually ranks
+    the labels.
+17. Adult scaffold chemistry Spearman on the eligible endpoints is 0.0220
+    (95% CI 0.0092 to 0.0386). The in-domain rank signal is small. Mean adult
+    calibration slope for chemistry is about 0.014, so the predictions are
+    poorly scaled. Alpha was not tuned.
+18. Structure-seen chemistry Spearman is 0.1923, and the all-pediatric figure
+    is 0.1434. Pooling pediatric rows mostly restates same-drug continuity.
+19. Biology-only macro Spearman has an exploratory interval above 0 (0.0723,
+    95% CI 0.0042 to 0.1441), but biology minus chemistry includes 0
+    (0.0409, 95% CI -0.0383 to 0.1220). That contrast was not a confirmatory
+    test. On the coverage-positive stratum the mean n is 24 and chemistry
+    (0.2040) is at least as high as early fusion (0.1831). Coverage-zero
+    biology Spearman is undefined because that block does not vary.
+20. CORAL's level interval excludes 0 and its contrast versus chemistry does
+    not (delta 0.0671, 95% CI -0.0588 to 0.1711). CORAL sees unlabeled
+    pediatric chemistry. It is not a zero-shot win.
+21. The Tox21 numbers in `reports/results.md` are logistic regression on
+    Morgan fingerprints. They are not a rerun of the archived XGBoost
+    pipeline, whose pooled AUROC was about 0.82.

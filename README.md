@@ -26,6 +26,29 @@ Do not quote a performance number that is not in it.
 Question 4 does not use a biological representation unless a Chemical Checker
 run is added later under the license note in `data/dataset_manifest.csv`.
 
+## Preliminary results (reduced confirmatory run)
+
+These sentences are copied from `reports/results.md`, which is generated from
+`results/predictions/predictions.csv.gz`. They are not a clinical result.
+
+On 12 eligible endpoints, structure-unseen pediatric-trial rows, ridge
+`alpha=10`: macro Spearman chemistry 0.0314, early fusion 0.0339, coverage
+gate 0.0308. Early fusion minus chemistry: delta 0.0025 (95% CI -0.0106 to
+0.0149; the interval includes 0). Early fusion minus the mean of the
+bio-permutation seeds: delta 0.0031 (95% CI -0.0143 to 0.0213; the interval
+includes 0). Coverage gate minus chemistry: delta -0.0007 (95% CI -0.0029 to
+0.0014; the interval includes 0). Multimodal benefit supported: no. The
+coverage gate does not reduce negative transfer (7 endpoints versus 5 for
+early fusion).
+
+The same chemistry model on structure-seen rows has macro Spearman 0.1923.
+That is same-drug continuity. The primary slice removes those rows.
+
+The Tox21 chemical arm is logistic regression on Morgan fingerprints, not the
+archived XGBoost figure. Scaffold-split macro AUROC 0.6895 versus random-split
+0.7331 (gap 0.0436) on 7,587 compounds. Chemical Checker signatures were not
+regenerated.
+
 ## What is not claimed
 
 - Clinical readiness, pediatric dosing, or developmental toxicity.
@@ -85,6 +108,9 @@ The full nested-alpha command is specified and was not the confirmatory run:
 ```bash
 python scripts/reproduce_all.py --config configs/full.yaml
 ```
+
+Fit provenance, file hashes, and the command that was actually run are in
+`reports/reproduction.md`.
 
 ## Reproducing figures
 

@@ -16,10 +16,13 @@ Keep the repository **public**, and keep the following out of git:
 - `chem_raw.csv` and other pre-joined feature matrices
 
 The committed tree is code, configuration, the audit, synthetic-test behavior,
-and aggregate metrics computed by the scripts. No patient-level records are
-in the handoff. Trial rows are structure-level sums of affected and at-risk
-counts, which are still kept out of git because they are large derived
-extracts rather than because they were found to be restricted.
+aggregate tables, figures, and saved predictions. Predictions contain an
+InChIKey, an endpoint name, the smoothed logit label, and a model score.
+They are committed so every reported number can be recomputed. They are not
+patient records. The raw affected and at-risk counts, the drug-name map, and
+the ChEMBL matrix stay out of git: the counts because they are a large
+derived extract, the matrix because of CC BY-SA 3.0 and an unidentified
+release.
 
 ## Stop condition
 
