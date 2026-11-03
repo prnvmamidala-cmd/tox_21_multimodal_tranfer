@@ -40,6 +40,7 @@ Against five training-row permutations of the profile the difference is $0.0031$
 A coverage gate differs from chemistry by $-0.0007$ ($95\%$ CI $-0.0029$ to $0.0014$) and raises the negative-transfer count from $5$ endpoints to $7$.
 The same chemistry model scores $0.1923$ on structures that do appear in both trial sets.
 The historical appearance of a pediatric signal is largely that overlap.
+A later pre-registered phase, with other fusion rules and a small multitask network, also found no arm whose intervals against chemistry and against a permutation control both lay above $0$.
 The null is narrow: it concerns this sparse channel and this label.
 \end{abstract}
 
@@ -78,8 +79,8 @@ That gap is prior exploratory context.
 It is not a result of the fit below, and it is not a trial-incidence result.
 
 ChEMBL is a public bioactivity resource \citep{zdrazil2024chembl}.
-The matrix used here is a $15$-target profile inherited from an earlier adult-coverage filter, not a current full ChEMBL release.
-The release identifier was not in the handoff.
+The matrix used for the confirmatory fit is a $15$-target profile inherited from an earlier adult-coverage filter, not a current full ChEMBL release.
+The release identifier was not recorded with that vocabulary.
 Correlation alignment (CORAL) is a transductive covariance-matching method that does not use target labels \citep{sun2016coral}.
 It is reported only as an exploratory arm.
 Ridge regression is the confirmatory estimator \citep{hoerl1970ridge}, fit with scikit-learn \citep{pedregosa2011sklearn}.
@@ -330,6 +331,54 @@ Name the label.
 Trial incidence, spontaneous-report fractions, and assay hits answer different questions.
 Mixing them produces an endpoint shift that no representation can honestly paper over.
 
+\section{Follow-up: other fusions and a small network}
+\label{sec:v5}
+
+The three confirmatory tests use one ridge penalty and one early-fusion rule.
+A later protocol, frozen before its own fits, asked whether a different combination rule or a small neural model would change the conclusion on the same twelve endpoints and the same structure-unseen InChIKeys.
+That protocol is not part of the Benjamini--Hochberg family in Table~\ref{tab:primary}.
+An arm in the follow-up is supported only if both of its $95\%$ endpoint-bootstrap intervals lie above $0$: the arm minus its matched chemistry model, and the arm minus the mean of the same arm under training-row permutations of biology, seeds $101$, $202$, $303$, $404$, and $505$.
+
+The follow-up rebuilds chemistry from PubChem SMILES and the $15$ target values from the public ChEMBL API.
+Mean missingness of that rebuilt profile is $0.9242$, on $3{,}057$ structures of which $201$ are structure-unseen.
+% src: reports/v5_results.md rebuilt ChEMBL mean missingness 0.9242; structures 3057; unseen 201
+These are not the original feature matrices, so the contrasts are against the matched rebuilt chemistry model, not against the confirmatory Spearman of $0.0314$.
+
+Table~\ref{tab:v5} records the six arms.
+None is supported.
+The largest point estimate is a late stack of a ridge on Tox21 assay outcomes with chemistry, $0.0543$ ($95\%$ CI $-0.0291$ to $0.1333$).
+The multitask network, one hidden layer of $64$ units trained on Morgan bits with and without the target block, is worse with the target block than without it ($-0.0167$, $95\%$ CI $-0.0401$ to $0.0079$).
+Chemical Checker signatures, Chemprop, PyTorch Geometric, and pretrained embedding weights were not available and were not given a score.
+
+\begin{table}[t]
+\caption{Follow-up arms on the structure-unseen slice. Deltas are macro Spearman. Intervals are $1{,}000$ endpoint resamples. A supported arm would need both intervals above $0$.}
+\label{tab:v5}
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Arm & vs chem. & $95\%$ CI & vs perm. & $95\%$ CI \\
+\midrule
+Late stack & $0.0082$ & $-0.0014$, $0.0200$ & $0.0087$ & $-0.0010$, $0.0215$ \\
+Missingness gate & $0.0021$ & $-0.0124$, $0.0200$ & $0.0017$ & $-0.0153$, $0.0201$ \\
+Imputed targets & $-0.0016$ & $-0.0035$, $0.0001$ & $-0.0017$ & $-0.0035$, $0.0000$ \\
+Targets, then label & $0.0444$ & $-0.0391$, $0.1170$ & $0.0151$ & $-0.0385$, $0.0625$ \\
+Multitask network & $-0.0167$ & $-0.0401$, $0.0079$ & $-0.0013$ & $-0.0140$, $0.0092$ \\
+Tox21-assay stack & $0.0543$ & $-0.0291$, $0.1333$ & $0.0651$ & $-0.0032$, $0.1363$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+% src: reports/v5_results.md verdict lines; results/v5/primary_contrasts.csv
+
+Two diagnostics sit outside that table.
+A ridge on the rebuilt profile does not predict the frozen chemistry residual on adult out-of-fold rows (macro Spearman $-0.0143$).
+% src: reports/v5_results.md residual macro mean -0.0143
+Chemistry does predict the targets themselves: mean scaffold out-of-fold Spearman $0.2815$ across the $15$ targets.
+% src: reports/v5_results.md redundancy mean 0.2815
+The channel overlaps structure, and that overlap does not produce a gain on the trial label.
+Replacing zero-filled targets with a training-set median moves an exploratory early ridge from $-0.0142$ to $-0.0081$.
+% src: reports/v5_results.md zero-filled -0.0142; train-median -0.0081
+
 \section{Limitations}
 \label{sec:limits}
 
@@ -345,11 +394,13 @@ Nothing here is a clinical decision rule.
 
 \section*{Broader impact statement}
 
-The useful outcome is a negative result with the endpoint named correctly.
-Publishing structure-seen performance as pediatric generalization would overstate what a trial-reporting model can do for dosing, developmental toxicity, or regulatory screening.
-The trial aggregates are structure-level counts from a public registry, not patient records.
-A ChEMBL-derived matrix carries a share-alike obligation and an unidentified release, so it is not included with this draft.
-The predictions required to recompute the decimals are structure identifiers, endpoint names, smoothed labels, and scores.
+The positive use of this work is to separate same-drug continuity from generalization, and to name the endpoint as trial adverse-event incidence.
+That can keep a Spearman near $0.19$ on overlapping structures from being described as pediatric toxicity performance.
+The negative use is treating the scores as dosing, screening, or regulatory evidence.
+On structures absent from the adult trials, the chemical rank correlation is compatible with zero, and the label is entangled with indication and reporting.
+Structure-level predictions can also be misread as patient-level risk.
+Mitigations are already in the protocol: the primary slice drops structures seen in adult trials, the claim requires intervals above zero, the ChEMBL matrix is not redistributed with the submission, and the text does not offer a clinical decision rule.
+The aggregates are counts from a public trial registry, not patient records.
 
 \section*{Reproducibility}
 
@@ -358,17 +409,20 @@ It refuses to start unless the analysis plan contains the frozen-protocol marker
 The fit manifest records commit \texttt{a9324cf}, timestamp 2026-10-19T15:29:45Z, penalty mode prespecified, and the package versions used (Python $3.12.3$, scikit-learn $1.9.1$, RDKit $2026.9.1$, XGBoost $3.4.1$).
 % src: results/run_manifest.json and results/tables/compute_runtime.csv
 The trial prediction file has SHA-256 \texttt{37dbf42edac39337d9e76aeb446661dd7e3a0e16429d453cfd4d93abf68faa0d}.
-Tables and figures are functions of that file.
-The synthetic smoke config does not use the trial tables and does not update the claim.
+Tables and figures for the confirmatory section are functions of that file.
+The follow-up command is \texttt{python scripts/v5\_run.py}, which refuses to start unless \texttt{reports/v5\_preregistration.md} contains its frozen marker.
+Its claims file is \texttt{results/v5/v5\_claims.json}.
+The synthetic smoke config does not use the trial tables and does not update either claim.
 The nested-penalty command was not the source of any number in Table~\ref{tab:primary}.
-Linked code should be stripped of repository URLs and names before review, because the public archive identifies the authors.
+Anonymized code and the prediction files are the supplementary material.
+This PDF does not link a repository or preprint that names the authors.
 
 \section*{Use of large language models}
 
-A large language model drafted the prose of this manuscript from the saved tables and the frozen analysis plan.
-It did not choose the eligibility cutoff, the penalty, the permutation seeds, or the three confirmatory tests.
+A large language model drafted the prose from the saved tables and the pre-registered plans.
+It did not choose the eligibility cutoff, the penalty, the permutation seeds, or which contrasts were confirmatory.
 Numerical sentences were checked against those tables.
-A human author must still read the compiled PDF before any submission.
+The authors are responsible for the content, including the text drafted by the model.
 
 \bibliographystyle{tmlr}
 \bibliography{references}
