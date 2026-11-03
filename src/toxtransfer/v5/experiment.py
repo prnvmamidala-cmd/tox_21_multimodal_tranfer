@@ -413,8 +413,6 @@ def run(cfg: dict, root: Path, pack: dict, chem_rows: pd.DataFrame) -> dict:
     contrasts = []
     pvals = []
     for i, arm in enumerate(arms):
-        delta_chem = _macro_delta(scores[arm], scores[matched_chem[arm] and matched_chem[arm] or scores["ridge_chem"]], endpoints)
-        # matched_chem values are prediction dicts; scores were stored under those names.
         base_name = "mlp_chem" if arm == "mlp_early" else "ridge_chem"
         delta_chem = np.array([scores[arm][ep] - scores[base_name][ep] for ep in endpoints])
         mean_perm = []
@@ -800,6 +798,8 @@ def _report(claims: dict) -> str:
         )
     lines.extend(["", "## Blocked", ""])
     for name, detail in claims["blocked"].items():
+        if detail is True or detail is False:
+            continue
         lines.append(f"- `{name}`: {detail}")
     lines.extend(["", "## Diagnostics", ""])
     residual = claims["diagnostics"]["residual_spearman_by_endpoint"]
@@ -808,6 +808,19 @@ def _report(claims: dict) -> str:
         "Adult out-of-fold Spearman of a biology model predicting the frozen chemistry residual, "
         f"macro mean {_fmt(float(np.mean(vals)) if vals else float('nan'))}."
     )
+    red = [float(row["spearman"]) for row in claims["diagnostics"].get("redundancy", []) if np.isfinite(float(row["spearman"]))]
+    lines.append(
+        "Scaffold out-of-fold Spearman of rebuilt chemistry predicting each ChEMBL target, "
+        f"mean across {len(red)} targets {_fmt(float(np.mean(red)) if red else float('nan'))}."
+    )
+    zero_rows = list(claims["diagnostics"].get("zero_vs_median", {}).values())
+    if zero_rows:
+        zero_macro = float(np.nanmean([row["zero"] for row in zero_rows]))
+        median_macro = float(np.nanmean([row["median"] for row in zero_rows]))
+        lines.append(
+            f"Exploratory early ridge, zero-filled biology macro Spearman {_fmt(zero_macro)}; "
+            f"train-median fill {_fmt(median_macro)}."
+        )
     comp = claims["extras"].get("tox21_competence", {})
     if isinstance(comp, dict) and "macro_auroc" in comp:
         lines.append(

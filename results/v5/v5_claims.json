@@ -1,0 +1,860 @@
+{
+  "status": "computed",
+  "n_structures_rebuilt": 3057,
+  "n_adult_structures": 2856,
+  "n_test_structures_available": 201,
+  "bio_mean_missingness": 0.9242394504416094,
+  "tox21_adult_with_any_assay": 689,
+  "tox21_blocked": false,
+  "late_weight": 0.75,
+  "perm_weights": {
+    "101": 0.75,
+    "202": 0.0,
+    "303": 0.5,
+    "404": 0.0,
+    "505": 0.0
+  },
+  "miss_gate": {
+    "intercept": 0.75,
+    "slope": 1.0
+  },
+  "contrasts": [
+    {
+      "arm": "late_stack",
+      "contrast": "minus_chem",
+      "estimate": 0.00820787483532556,
+      "ci_low": -0.001425159798269872,
+      "ci_high": 0.02004392011986479,
+      "p_bootstrap": 0.09,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.2448
+    },
+    {
+      "arm": "late_stack",
+      "contrast": "minus_perm",
+      "estimate": 0.00871042693979095,
+      "ci_low": -0.0009906511948500729,
+      "ci_high": 0.02151970767579687,
+      "p_bootstrap": 0.102,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.2448
+    },
+    {
+      "arm": "miss_gate",
+      "contrast": "minus_chem",
+      "estimate": 0.002092565753093979,
+      "ci_low": -0.012376369768068309,
+      "ci_high": 0.01998888860053414,
+      "p_bootstrap": 0.898,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.9796363636363636
+    },
+    {
+      "arm": "miss_gate",
+      "contrast": "minus_perm",
+      "estimate": 0.001737639564722503,
+      "ci_low": -0.015272207205414839,
+      "ci_high": 0.02009843767742802,
+      "p_bootstrap": 0.99,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.9899999999999999
+    },
+    {
+      "arm": "imputed_early",
+      "contrast": "minus_chem",
+      "estimate": -0.001562861007155622,
+      "ci_low": -0.0035312433581661407,
+      "ci_high": 0.00012675824624627568,
+      "p_bootstrap": 0.074,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.2448
+    },
+    {
+      "arm": "imputed_early",
+      "contrast": "minus_perm",
+      "estimate": -0.0016518647425933194,
+      "ci_low": -0.00350509791181203,
+      "ci_high": 1.4274674064975328e-06,
+      "p_bootstrap": 0.052,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.2448
+    },
+    {
+      "arm": "mechanism",
+      "contrast": "minus_chem",
+      "estimate": 0.044410124657454086,
+      "ci_low": -0.03909846664537683,
+      "ci_high": 0.11699273926916881,
+      "p_bootstrap": 0.312,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.46799999999999997
+    },
+    {
+      "arm": "mechanism",
+      "contrast": "minus_perm",
+      "estimate": 0.015089484629693117,
+      "ci_low": -0.038478721968133976,
+      "ci_high": 0.06251848738942323,
+      "p_bootstrap": 0.564,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.7519999999999999
+    },
+    {
+      "arm": "mlp_early",
+      "contrast": "minus_chem",
+      "estimate": -0.01668875637043463,
+      "ci_low": -0.040091714911186654,
+      "ci_high": 0.007930998141200825,
+      "p_bootstrap": 0.23,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.3942857142857143
+    },
+    {
+      "arm": "mlp_early",
+      "contrast": "minus_perm",
+      "estimate": -0.0013203851355079645,
+      "ci_low": -0.013960903652336439,
+      "ci_high": 0.009215975598044658,
+      "p_bootstrap": 0.786,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.9432
+    },
+    {
+      "arm": "tox21_late",
+      "contrast": "minus_chem",
+      "estimate": 0.05426971434134869,
+      "ci_low": -0.029121627897078842,
+      "ci_high": 0.13329947844025994,
+      "p_bootstrap": 0.216,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.3942857142857143
+    },
+    {
+      "arm": "tox21_late",
+      "contrast": "minus_perm",
+      "estimate": 0.06509619168663035,
+      "ci_low": -0.0031664827973861766,
+      "ci_high": 0.13631163594858803,
+      "p_bootstrap": 0.062,
+      "n_endpoints": 12,
+      "supported_interval": false,
+      "q_bh": 0.2448
+    }
+  ],
+  "verdicts": [
+    {
+      "arm": "late_stack",
+      "status": "null",
+      "minus_chem": {
+        "arm": "late_stack",
+        "contrast": "minus_chem",
+        "estimate": 0.00820787483532556,
+        "ci_low": -0.001425159798269872,
+        "ci_high": 0.02004392011986479,
+        "p_bootstrap": 0.09,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.2448
+      },
+      "minus_perm": {
+        "arm": "late_stack",
+        "contrast": "minus_perm",
+        "estimate": 0.00871042693979095,
+        "ci_low": -0.0009906511948500729,
+        "ci_high": 0.02151970767579687,
+        "p_bootstrap": 0.102,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.2448
+      }
+    },
+    {
+      "arm": "miss_gate",
+      "status": "null",
+      "minus_chem": {
+        "arm": "miss_gate",
+        "contrast": "minus_chem",
+        "estimate": 0.002092565753093979,
+        "ci_low": -0.012376369768068309,
+        "ci_high": 0.01998888860053414,
+        "p_bootstrap": 0.898,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.9796363636363636
+      },
+      "minus_perm": {
+        "arm": "miss_gate",
+        "contrast": "minus_perm",
+        "estimate": 0.001737639564722503,
+        "ci_low": -0.015272207205414839,
+        "ci_high": 0.02009843767742802,
+        "p_bootstrap": 0.99,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.9899999999999999
+      }
+    },
+    {
+      "arm": "imputed_early",
+      "status": "null",
+      "minus_chem": {
+        "arm": "imputed_early",
+        "contrast": "minus_chem",
+        "estimate": -0.001562861007155622,
+        "ci_low": -0.0035312433581661407,
+        "ci_high": 0.00012675824624627568,
+        "p_bootstrap": 0.074,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.2448
+      },
+      "minus_perm": {
+        "arm": "imputed_early",
+        "contrast": "minus_perm",
+        "estimate": -0.0016518647425933194,
+        "ci_low": -0.00350509791181203,
+        "ci_high": 1.4274674064975328e-06,
+        "p_bootstrap": 0.052,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.2448
+      }
+    },
+    {
+      "arm": "mechanism",
+      "status": "null",
+      "minus_chem": {
+        "arm": "mechanism",
+        "contrast": "minus_chem",
+        "estimate": 0.044410124657454086,
+        "ci_low": -0.03909846664537683,
+        "ci_high": 0.11699273926916881,
+        "p_bootstrap": 0.312,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.46799999999999997
+      },
+      "minus_perm": {
+        "arm": "mechanism",
+        "contrast": "minus_perm",
+        "estimate": 0.015089484629693117,
+        "ci_low": -0.038478721968133976,
+        "ci_high": 0.06251848738942323,
+        "p_bootstrap": 0.564,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.7519999999999999
+      }
+    },
+    {
+      "arm": "mlp_early",
+      "status": "null",
+      "minus_chem": {
+        "arm": "mlp_early",
+        "contrast": "minus_chem",
+        "estimate": -0.01668875637043463,
+        "ci_low": -0.040091714911186654,
+        "ci_high": 0.007930998141200825,
+        "p_bootstrap": 0.23,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.3942857142857143
+      },
+      "minus_perm": {
+        "arm": "mlp_early",
+        "contrast": "minus_perm",
+        "estimate": -0.0013203851355079645,
+        "ci_low": -0.013960903652336439,
+        "ci_high": 0.009215975598044658,
+        "p_bootstrap": 0.786,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.9432
+      }
+    },
+    {
+      "arm": "tox21_late",
+      "status": "null",
+      "minus_chem": {
+        "arm": "tox21_late",
+        "contrast": "minus_chem",
+        "estimate": 0.05426971434134869,
+        "ci_low": -0.029121627897078842,
+        "ci_high": 0.13329947844025994,
+        "p_bootstrap": 0.216,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.3942857142857143
+      },
+      "minus_perm": {
+        "arm": "tox21_late",
+        "contrast": "minus_perm",
+        "estimate": 0.06509619168663035,
+        "ci_low": -0.0031664827973861766,
+        "ci_high": 0.13631163594858803,
+        "p_bootstrap": 0.062,
+        "n_endpoints": 12,
+        "supported_interval": false,
+        "q_bh": 0.2448
+      }
+    }
+  ],
+  "endpoint_spearman": {
+    "ridge_chem": {
+      "ANY_OTHER_AE": -0.024027454377206606,
+      "ANY_SERIOUS": -0.031231260098032742,
+      "CARDIAC": 0.14563825215527423,
+      "DERMATOLOGIC": -0.04999619057096258,
+      "ENDOCRINE_METABOLIC": -0.09306438776057056,
+      "GASTROINTESTINAL": -0.02668863662408106,
+      "HEMATOLOGIC": -0.14419732887474357,
+      "IMMUNE_INFECTION": -0.00761468290603067,
+      "MORTALITY": 0.048760930311288656,
+      "NEUROLOGIC": 0.00415656914284936,
+      "PSYCHIATRIC": 0.017789072428103278,
+      "RESPIRATORY": 0.08462508729598417
+    },
+    "mlp_chem": {
+      "ANY_OTHER_AE": 0.036142061622427175,
+      "ANY_SERIOUS": 0.06516725923044528,
+      "CARDIAC": 0.2031485220147676,
+      "DERMATOLOGIC": 0.18672246594974387,
+      "ENDOCRINE_METABOLIC": 0.13977344899838284,
+      "GASTROINTESTINAL": 0.09518559289367952,
+      "HEMATOLOGIC": 0.09051056496252147,
+      "IMMUNE_INFECTION": 0.14984830937744245,
+      "MORTALITY": 0.04940603844424517,
+      "NEUROLOGIC": 0.1657438243543217,
+      "PSYCHIATRIC": 0.175212060865218,
+      "RESPIRATORY": 0.003737493725795087
+    },
+    "late_stack": {
+      "ANY_OTHER_AE": -0.021711338281785536,
+      "ANY_SERIOUS": -0.0033010417333071257,
+      "CARDIAC": 0.14767943298436007,
+      "DERMATOLOGIC": -0.045457513860808804,
+      "ENDOCRINE_METABOLIC": -0.09684291767137466,
+      "GASTROINTESTINAL": -0.014291468873385676,
+      "HEMATOLOGIC": -0.087061986768922,
+      "IMMUNE_INFECTION": 0.012064552217583274,
+      "MORTALITY": 0.042313868347037986,
+      "NEUROLOGIC": 0.003310140517396399,
+      "PSYCHIATRIC": 0.0021062994380765783,
+      "RESPIRATORY": 0.08383644183090813
+    },
+    "miss_gate": {
+      "ANY_OTHER_AE": -0.03129906886720248,
+      "ANY_SERIOUS": 0.004489146733434026,
+      "CARDIAC": 0.1166534843822554,
+      "DERMATOLOGIC": -0.0664312069554523,
+      "ENDOCRINE_METABOLIC": -0.1221831863497885,
+      "GASTROINTESTINAL": -0.013787942452138945,
+      "HEMATOLOGIC": -0.06128532603371246,
+      "IMMUNE_INFECTION": -0.0012226743715854818,
+      "MORTALITY": 0.040193653143707424,
+      "NEUROLOGIC": -0.002776084360860603,
+      "PSYCHIATRIC": 0.013095687810650033,
+      "RESPIRATORY": 0.07381427647969353
+    },
+    "imputed_early": {
+      "ANY_OTHER_AE": -0.026037555133595357,
+      "ANY_SERIOUS": -0.03607968858339908,
+      "CARDIAC": 0.13512617088548218,
+      "DERMATOLOGIC": -0.04764522133980379,
+      "ENDOCRINE_METABOLIC": -0.09317693971536048,
+      "GASTROINTESTINAL": -0.02686226642451097,
+      "HEMATOLOGIC": -0.1456293655822552,
+      "IMMUNE_INFECTION": -0.007988970978965,
+      "MORTALITY": 0.05075654518987373,
+      "NEUROLOGIC": -8.565051567083529e-05,
+      "PSYCHIATRIC": 0.017972228900979506,
+      "RESPIRATORY": 0.08504635133322974
+    },
+    "mechanism": {
+      "ANY_OTHER_AE": 0.2198487699292545,
+      "ANY_SERIOUS": 0.11070078330727835,
+      "CARDIAC": -0.14053530008255966,
+      "DERMATOLOGIC": 0.10311068060825385,
+      "ENDOCRINE_METABOLIC": -0.09288752040304357,
+      "GASTROINTESTINAL": 0.05106973320044866,
+      "HEMATOLOGIC": 0.02034076629445106,
+      "IMMUNE_INFECTION": 0.16306483710839026,
+      "MORTALITY": 0.09162746138905262,
+      "NEUROLOGIC": 0.025886608795103044,
+      "PSYCHIATRIC": -0.1030026214337666,
+      "RESPIRATORY": 0.00784726729845836
+    },
+    "mlp_early": {
+      "ANY_OTHER_AE": 0.06785815139282077,
+      "ANY_SERIOUS": 0.05627897371813229,
+      "CARDIAC": 0.1822264185166378,
+      "DERMATOLOGIC": 0.11634576665033299,
+      "ENDOCRINE_METABOLIC": 0.19101674612916006,
+      "GASTROINTESTINAL": 0.12570623921324864,
+      "HEMATOLOGIC": 0.03682380105029934,
+      "IMMUNE_INFECTION": 0.09027412443539475,
+      "MORTALITY": 0.07361266605004295,
+      "NEUROLOGIC": 0.17058055935691002,
+      "PSYCHIATRIC": 0.08026832423800527,
+      "RESPIRATORY": -0.030659204757210283
+    },
+    "tox21_late": {
+      "ANY_OTHER_AE": 0.09462537113442904,
+      "ANY_SERIOUS": 0.06916919289024948,
+      "CARDIAC": -0.049437810032169585,
+      "DERMATOLOGIC": -0.04999619057096258,
+      "ENDOCRINE_METABOLIC": -0.059330959024966386,
+      "GASTROINTESTINAL": 0.007830794270552784,
+      "HEMATOLOGIC": 0.23569920400036132,
+      "IMMUNE_INFECTION": 0.23383975020069853,
+      "MORTALITY": 0.11527126413409182,
+      "NEUROLOGIC": -0.12799976893975218,
+      "PSYCHIATRIC": 0.017789072428103278,
+      "RESPIRATORY": 0.08792662172742045
+    }
+  },
+  "diagnostics": {
+    "residual_spearman_by_endpoint": {
+      "ANY_OTHER_AE": 0.0017799862537802487,
+      "ANY_SERIOUS": 0.0011368766028176244,
+      "CARDIAC": 0.016752083342593586,
+      "DERMATOLOGIC": -0.008170617666512054,
+      "ENDOCRINE_METABOLIC": -0.0018799682652739572,
+      "GASTROINTESTINAL": -0.014751962885057843,
+      "HEMATOLOGIC": -0.00910649025658428,
+      "IMMUNE_INFECTION": 0.005826832755499593,
+      "MORTALITY": -0.041307328477747755,
+      "NEUROLOGIC": -0.04747241709737306,
+      "PSYCHIATRIC": -0.012955442010844025,
+      "RESPIRATORY": -0.06167238680960907
+    },
+    "coverage_bins": [
+      {
+        "endpoint": "ANY_OTHER_AE",
+        "bin": "0",
+        "n": 153,
+        "spearman_chem": -0.05815549961677914
+      },
+      {
+        "endpoint": "ANY_OTHER_AE",
+        "bin": "(0,0.2]",
+        "n": 38,
+        "spearman_chem": 0.08480604050555457
+      },
+      {
+        "endpoint": "ANY_OTHER_AE",
+        "bin": "(0.2,1]",
+        "n": 9,
+        "spearman_chem": -0.016666666666666666
+      },
+      {
+        "endpoint": "ANY_SERIOUS",
+        "bin": "0",
+        "n": 153,
+        "spearman_chem": -0.05091268547128518
+      },
+      {
+        "endpoint": "ANY_SERIOUS",
+        "bin": "(0,0.2]",
+        "n": 38,
+        "spearman_chem": -0.05593563981201773
+      },
+      {
+        "endpoint": "ANY_SERIOUS",
+        "bin": "(0.2,1]",
+        "n": 9,
+        "spearman_chem": 0.2761530448893886
+      },
+      {
+        "endpoint": "CARDIAC",
+        "bin": "0",
+        "n": 40,
+        "spearman_chem": -0.01735948233629121
+      },
+      {
+        "endpoint": "CARDIAC",
+        "bin": "(0,0.2]",
+        "n": 8,
+        "spearman_chem": 0.4761904761904762
+      },
+      {
+        "endpoint": "CARDIAC",
+        "bin": "(0.2,1]",
+        "n": 1,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "DERMATOLOGIC",
+        "bin": "0",
+        "n": 62,
+        "spearman_chem": -0.11427168332423945
+      },
+      {
+        "endpoint": "DERMATOLOGIC",
+        "bin": "(0,0.2]",
+        "n": 16,
+        "spearman_chem": -0.14411764705882352
+      },
+      {
+        "endpoint": "DERMATOLOGIC",
+        "bin": "(0.2,1]",
+        "n": 4,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "ENDOCRINE_METABOLIC",
+        "bin": "0",
+        "n": 58,
+        "spearman_chem": -0.1586993971465771
+      },
+      {
+        "endpoint": "ENDOCRINE_METABOLIC",
+        "bin": "(0,0.2]",
+        "n": 13,
+        "spearman_chem": 0.18131868131868134
+      },
+      {
+        "endpoint": "ENDOCRINE_METABOLIC",
+        "bin": "(0.2,1]",
+        "n": 1,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "GASTROINTESTINAL",
+        "bin": "0",
+        "n": 94,
+        "spearman_chem": -0.04555110003370223
+      },
+      {
+        "endpoint": "GASTROINTESTINAL",
+        "bin": "(0,0.2]",
+        "n": 21,
+        "spearman_chem": 0.09090909090909091
+      },
+      {
+        "endpoint": "GASTROINTESTINAL",
+        "bin": "(0.2,1]",
+        "n": 5,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "HEMATOLOGIC",
+        "bin": "0",
+        "n": 47,
+        "spearman_chem": -0.2377771996252169
+      },
+      {
+        "endpoint": "HEMATOLOGIC",
+        "bin": "(0,0.2]",
+        "n": 9,
+        "spearman_chem": 0.3666666666666667
+      },
+      {
+        "endpoint": "HEMATOLOGIC",
+        "bin": "(0.2,1]",
+        "n": 3,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "IMMUNE_INFECTION",
+        "bin": "0",
+        "n": 88,
+        "spearman_chem": 0.006164305154541511
+      },
+      {
+        "endpoint": "IMMUNE_INFECTION",
+        "bin": "(0,0.2]",
+        "n": 20,
+        "spearman_chem": -0.15789473684210525
+      },
+      {
+        "endpoint": "IMMUNE_INFECTION",
+        "bin": "(0.2,1]",
+        "n": 5,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "MORTALITY",
+        "bin": "0",
+        "n": 110,
+        "spearman_chem": 0.03765983743275674
+      },
+      {
+        "endpoint": "MORTALITY",
+        "bin": "(0,0.2]",
+        "n": 28,
+        "spearman_chem": 0.047638607713369766
+      },
+      {
+        "endpoint": "MORTALITY",
+        "bin": "(0.2,1]",
+        "n": 6,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "NEUROLOGIC",
+        "bin": "0",
+        "n": 85,
+        "spearman_chem": 0.0045535827708673106
+      },
+      {
+        "endpoint": "NEUROLOGIC",
+        "bin": "(0,0.2]",
+        "n": 17,
+        "spearman_chem": -0.15441176470588236
+      },
+      {
+        "endpoint": "NEUROLOGIC",
+        "bin": "(0.2,1]",
+        "n": 4,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "PSYCHIATRIC",
+        "bin": "0",
+        "n": 52,
+        "spearman_chem": -0.045165421599318814
+      },
+      {
+        "endpoint": "PSYCHIATRIC",
+        "bin": "(0,0.2]",
+        "n": 11,
+        "spearman_chem": 0.21818181818181823
+      },
+      {
+        "endpoint": "PSYCHIATRIC",
+        "bin": "(0.2,1]",
+        "n": 1,
+        "spearman_chem": NaN
+      },
+      {
+        "endpoint": "RESPIRATORY",
+        "bin": "0",
+        "n": 86,
+        "spearman_chem": 0.04748695602351998
+      },
+      {
+        "endpoint": "RESPIRATORY",
+        "bin": "(0,0.2]",
+        "n": 18,
+        "spearman_chem": 0.281733746130031
+      },
+      {
+        "endpoint": "RESPIRATORY",
+        "bin": "(0.2,1]",
+        "n": 3,
+        "spearman_chem": NaN
+      }
+    ],
+    "redundancy": [
+      {
+        "target_column": 0,
+        "n": 812,
+        "spearman": 0.34248161264923077
+      },
+      {
+        "target_column": 1,
+        "n": 230,
+        "spearman": 0.2955650548198408
+      },
+      {
+        "target_column": 2,
+        "n": 227,
+        "spearman": 0.17119645302081882
+      },
+      {
+        "target_column": 3,
+        "n": 223,
+        "spearman": -0.014829057994300905
+      },
+      {
+        "target_column": 4,
+        "n": 205,
+        "spearman": 0.15820668339425178
+      },
+      {
+        "target_column": 5,
+        "n": 196,
+        "spearman": 0.4224673108009075
+      },
+      {
+        "target_column": 6,
+        "n": 180,
+        "spearman": 0.2776143017724199
+      },
+      {
+        "target_column": 7,
+        "n": 166,
+        "spearman": 0.25751488796431937
+      },
+      {
+        "target_column": 8,
+        "n": 163,
+        "spearman": 0.16019331050457272
+      },
+      {
+        "target_column": 9,
+        "n": 163,
+        "spearman": 0.2790800786794041
+      },
+      {
+        "target_column": 10,
+        "n": 162,
+        "spearman": 0.36749958205323335
+      },
+      {
+        "target_column": 11,
+        "n": 161,
+        "spearman": 0.4979715990048114
+      },
+      {
+        "target_column": 12,
+        "n": 159,
+        "spearman": 0.41409905075297077
+      },
+      {
+        "target_column": 13,
+        "n": 153,
+        "spearman": 0.47716173225269004
+      },
+      {
+        "target_column": 14,
+        "n": 147,
+        "spearman": 0.11638764868773305
+      }
+    ],
+    "zero_vs_median": {
+      "ANY_OTHER_AE": {
+        "zero": -0.034575983122673556,
+        "median": -0.0365515821496616
+      },
+      "ANY_SERIOUS": {
+        "zero": -0.034558554151418425,
+        "median": -0.03080297224760821
+      },
+      "CARDIAC": {
+        "zero": 0.15354782786798185,
+        "median": 0.1325746948491249
+      },
+      "DERMATOLOGIC": {
+        "zero": -0.07857788131643939,
+        "median": -0.02913133864442829
+      },
+      "ENDOCRINE_METABOLIC": {
+        "zero": -0.08759757852791784,
+        "median": -0.08497672586638137
+      },
+      "GASTROINTESTINAL": {
+        "zero": -0.029480603814993976,
+        "median": -0.025268344856564418
+      },
+      "HEMATOLOGIC": {
+        "zero": -0.18844434061296042,
+        "median": -0.12175234537741829
+      },
+      "IMMUNE_INFECTION": {
+        "zero": 0.0002703191637859058,
+        "median": -0.01168194663191707
+      },
+      "MORTALITY": {
+        "zero": 0.01879857157531196,
+        "median": 0.036899783268580594
+      },
+      "NEUROLOGIC": {
+        "zero": -0.028582080905920508,
+        "median": 0.01861639149433744
+      },
+      "PSYCHIATRIC": {
+        "zero": 0.05089460490048081,
+        "median": -0.018750643910703458
+      },
+      "RESPIRATORY": {
+        "zero": 0.08838707311696795,
+        "median": 0.07351547291839143
+      }
+    }
+  },
+  "extras": {
+    "signaturizer": "blocked: ModuleNotFoundError: No module named 'signaturizer'",
+    "chemprop": "blocked: ModuleNotFoundError",
+    "pyg": "blocked: ModuleNotFoundError",
+    "pretrained": "blocked: no pretrained embedding weights with a checked license were downloaded",
+    "tox21_competence": {
+      "model": "logistic_morgan",
+      "macro_auroc": 0.688632316826555,
+      "n_tasks": 12,
+      "tasks": [
+        {
+          "task": "NR-AR",
+          "auroc": 0.6991695525657247
+        },
+        {
+          "task": "NR-AR-LBD",
+          "auroc": 0.7839912515119064
+        },
+        {
+          "task": "NR-AhR",
+          "auroc": 0.7405296161369017
+        },
+        {
+          "task": "NR-Aromatase",
+          "auroc": 0.6818292830371177
+        },
+        {
+          "task": "NR-ER",
+          "auroc": 0.6172635512511678
+        },
+        {
+          "task": "NR-ER-LBD",
+          "auroc": 0.7114939319112938
+        },
+        {
+          "task": "NR-PPAR-gamma",
+          "auroc": 0.6765092607870637
+        },
+        {
+          "task": "SR-ARE",
+          "auroc": 0.6550152603567332
+        },
+        {
+          "task": "SR-ATAD5",
+          "auroc": 0.6844067513368983
+        },
+        {
+          "task": "SR-HSE",
+          "auroc": 0.6086673785663436
+        },
+        {
+          "task": "SR-MMP",
+          "auroc": 0.7435503332182921
+        },
+        {
+          "task": "SR-p53",
+          "auroc": 0.6611616312392172
+        }
+      ]
+    },
+    "gnn": {
+      "status": "not_a_primary_arm",
+      "detail": "A Chemprop D-MPNN and a PyG model were not imported. A from-scratch message-passing net was not promoted into the primary family."
+    }
+  },
+  "blocked": {
+    "signaturizer": "blocked: ModuleNotFoundError: No module named 'signaturizer'",
+    "chemprop": "blocked: ModuleNotFoundError",
+    "pyg": "blocked: ModuleNotFoundError",
+    "pretrained_embeddings": "blocked: no pretrained embedding weights with a checked license were downloaded",
+    "tox21_late": false
+  }
+}

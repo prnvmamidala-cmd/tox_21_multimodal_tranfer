@@ -60,6 +60,11 @@ def _get_json(url: str, timeout: int = 60, attempts: int = 4) -> dict:
             request = urllib.request.Request(url, headers={"Accept": "application/json"})
             with urllib.request.urlopen(request, timeout=timeout) as response:
                 return json.loads(response.read().decode())
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                raise
+            last = exc
+            time.sleep(1.5 * (attempt + 1))
         except Exception as exc:  # noqa: BLE001
             last = exc
             time.sleep(1.5 * (attempt + 1))
@@ -100,11 +105,18 @@ def fetch_smiles(inchikeys: list[str], cache: Path, batch: int = 80) -> dict[str
                     f"{key}/property/InChIKey,ConnectivitySMILES/JSON"
                 )
                 try:
-                    payload = _get_json(one)
+                    payload = _get_json(one, attempts=1)
                 except Exception:
+                    found[key] = ""
                     continue
+                hit = False
                 for row in payload.get("PropertyTable", {}).get("Properties", []):
-                    found.setdefault(row["InChIKey"], row["ConnectivitySMILES"])
+                    if row.get("InChIKey") == key and row.get("ConnectivitySMILES"):
+                        found[key] = row["ConnectivitySMILES"]
+                        hit = True
+                        break
+                if not hit:
+                    found[key] = ""
             cache.write_text(json.dumps(found))
             continue
         for row in payload.get("PropertyTable", {}).get("Properties", []):
