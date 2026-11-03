@@ -1,0 +1,13 @@
+| phase | slice | model | representation | macro_spearman | median_spearman | macro_rmse | n_endpoints |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| adult_oof | adult_scaffold_oof | ridge | chem_permuted_bio_seed_202 | 0.0257 | 0.0208 | 3.0688 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | chem_permuted_bio_seed_303 | 0.0243 | 0.0216 | 3.0780 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | early_imputed_no_indicator | 0.0242 | 0.0195 | 3.0616 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | chem_random_matched | 0.0242 | 0.0176 | 3.1187 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | chem_permuted_bio_seed_101 | 0.0227 | 0.0164 | 3.0757 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | chem_permuted_bio_seed_505 | 0.0225 | 0.0175 | 3.0719 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | early | 0.0224 | 0.0164 | 3.0837 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | chem | 0.0220 | 0.0157 | 3.0621 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | chem_permuted_bio_seed_404 | 0.0210 | 0.0158 | 3.0802 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | bio | 0.0067 | 0.0204 | 1.5555 | 12 |
+| adult_oof | adult_scaffold_oof | ridge | missingness | 0.0034 | 0.0065 | 1.5537 | 12 |

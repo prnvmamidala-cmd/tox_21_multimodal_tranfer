@@ -1,0 +1,17 @@
+name: toxtransfer
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - numpy==2.5.4
+      - pandas==3.0.6
+      - scipy==1.18.1
+      - scikit-learn==1.9.1
+      - rdkit==2026.9.1
+      - xgboost==3.4.1
+      - matplotlib==3.11.2
+      - PyYAML==6.0.1
+      - pytest==9.1.1
+      - joblib==1.6.0

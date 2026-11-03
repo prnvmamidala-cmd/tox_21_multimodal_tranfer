@@ -1,0 +1,6 @@
+{
+  "hypothesis": "Adding chembl_target_profile bio to chem improves adult\u2192pediatric AE incidence transfer",
+  "computational_status": "COMPLETE (with documented early mapping stop + EV unavailable)",
+  "scientific_support": "REJECTS / does not support multimodal benefit under pre-specified criteria (true bio must beat chem AND permuted controls)",
+  "note": "Null result is valid. Do not claim multimodal helps."
+}

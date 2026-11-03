@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "When does biology help? Reliability-aware multimodal prediction under toxicity-related domain shift"
+message: >-
+  If you use this repository, cite it as software. It is a methods and
+  evaluation study, not a clinically validated predictor.
+type: software
+authors:
+  - family-names: Mamidala
+    given-names: Pranav
+repository-code: https://github.com/prnvmamidala-cmd/tox_21_multimodal_tranfer
+license: MIT
+version: 0.1.0
+date-released: 2026-10-19
+keywords:
+  - toxicity
+  - domain shift
+  - multimodal representation
+  - clinical trial adverse events
+  - reproducibility

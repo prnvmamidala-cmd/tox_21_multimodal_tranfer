@@ -1,0 +1,23 @@
+% hyperparameters
+\begin{tabular}{lll}
+\hline
+item & value & role \\
+\hline
+ridge\_alpha & 10.0 & prespecified confirmatory \\
+ridge\_alpha\_mode & prespecified & not tuned on the transfer test \\
+ridge\_alpha\_grid\_full\_only & [0.1, 1.0, 10.0, 100.0] & full.yaml only \\
+rf\_n\_estimators & 40 & robustness \\
+rf\_max\_depth & 12 & robustness \\
+rf\_min\_samples\_leaf & 5 & robustness \\
+rf\_adult\_oof & False & reduced run \\
+xgb\_n\_estimators & 40 & robustness \\
+xgb\_max\_depth & 3 & robustness \\
+xgb\_learning\_rate & 0.1 & robustness \\
+bootstrap\_n & 1000 & endpoint percentile interval \\
+bootstrap\_seed & 0 & endpoint percentile interval \\
+permutation\_seeds & [101, 202, 303, 404, 505] & training-row biology permutation \\
+pca\_components & 32 & CORAL, transductive \\
+min\_adult\_n & 200 & eligibility, frozen \\
+min\_unseen\_n & 40 & eligibility, frozen \\
+\hline
+\end{tabular}

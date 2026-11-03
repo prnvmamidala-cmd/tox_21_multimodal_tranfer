@@ -1,0 +1,33 @@
+{
+  "hypothesis": "At the same labeling budget b, Perf(PACT-AL) > Perf(random) and AULC(PACT-AL) > AULC(baselines), using acquisition = PACT uncertainty + chemical diversity + endpoint underrepresentation.",
+  "verdict": "PARTIALLY_SUPPORTED",
+  "criteria": {
+    "c1_positive_delta_vs_random": true,
+    "c2_ci_excludes_zero": false,
+    "c3_p_below_05": false,
+    "c4_enough_units": true,
+    "c5_mean_aulc_above_random": true,
+    "c6_negatives_ok": true
+  },
+  "primary_delta_aulc_vs_random": {
+    "delta": 0.005558065547272603,
+    "ci_lo": -0.0024767177596577645,
+    "ci_hi": 0.013300893629162322,
+    "p": 0.1716,
+    "n_units": 50,
+    "n_boot": 5000,
+    "comparison": "PACT-AL \u2212 random"
+  },
+  "design": "Temporal holdout of NEW CT.gov pediatric trials not in V3 is UNAVAILABLE (REACT-Fuse documented: true post-V3 NEW trials not fetched). Primary design = 5-fold structure-grouped outer CV (retrospective internal). PACT final-test was already inspected \u2014 NOT reused as independent confirmation.",
+  "caveats": [
+    "No formal conformal guarantee under adaptive selection.",
+    "No prospective clinical claim \u2014 retrospective AL simulation only.",
+    "Clean null preferred over leakage; PACT final-test not reused as confirmation.",
+    "Oracle (I) uses hidden outcomes \u2014 analysis upper bound only."
+  ],
+  "secondary_findings": {
+    "endpoint_need_beats_pact_al": true,
+    "note": "F_endpoint_need achieved the highest AULC (0.116) and significantly beat H_pact_al (\u0394 AULC H\u2212F = \u22120.014, CI excludes 0). Full PACT-AL beat diversity and U+D but not endpoint-need alone. Primary \u0394 vs random positive but CI includes 0 \u2192 PARTIALLY_SUPPORTED.",
+    "label_savings_highlight": "F_endpoint_need reaches random peak macro-Spearman by budget 0.20 (savings 0.20); H_pact_al mean curve does not exceed random peak within observed budgets."
+  }
+}

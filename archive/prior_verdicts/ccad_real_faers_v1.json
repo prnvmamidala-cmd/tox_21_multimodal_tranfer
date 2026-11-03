@@ -1,0 +1,37 @@
+{
+  "project": "CCAD",
+  "verdict_overall": "NOT_SUPPORTED",
+  "verdict_monitoring": "NOT_EVALUATED_FINAL",
+  "verdict_selective": "NOT_EVALUATED_FINAL",
+  "pilot_monitoring": "FAIL_UNDERPOWERED",
+  "pilot_selective": "NEAR_MISS_BELOW_FROZEN_MARGIN",
+  "reason": "Pilot stop/go FAILED on train/cal/monitor_dev; final_test not opened; criteria not weakened",
+  "pilot": {
+    "point_ok": true,
+    "b4_point_val_wSpearman": 0.7779658952242537,
+    "mon_ok": false,
+    "ccad_prec_far20": 0.0,
+    "rolling_prec_far20": 0.0,
+    "sel_ok": false,
+    "ccad_mae75": 0.5030027443954179,
+    "random_mae75": 0.5212787989538106,
+    "pilot_pass": false,
+    "rule": "point_ok AND (mon_ok OR sel_ok); mon: +0.02 vs rolling; sel: -0.02 MAE vs random"
+  },
+  "b4_reproduction": {
+    "w_macro_spearman": 0.6625129874190278,
+    "global_spearman": 0.6741853652534474,
+    "dart_ref": 0.6640382197014868,
+    "abs_diff": 0.0015252322824590436,
+    "within_tolerance_0.05": true,
+    "n_train": 159130,
+    "n_test": 103940
+  },
+  "protocol_hash": "baf6a122535874580be32cf85a5cbefadd5f3fbeb29511d30026ec50e476cedd",
+  "n_quarter_signal_rows": 980709,
+  "n_quarters": 34,
+  "scale": "top400x400_pipeline_pilot_NOT_confirmatory",
+  "language": "FAERS pharmacovigilance reporting associations / signals \u2014 NOT incidence, causal toxicity, individual risk, or clinical DS. Empirical alarm scores (not martingale-valid by default). Selective prediction among retained forecasts \u2014 not triage.",
+  "aaai_workshop_framing": "Defensible as honest negative / feasibility / audit paper; NOT as successful method paper. Pilot gate is a feature.",
+  "most_important_limitation": "monitor_dev only 2 quarters \u2192 Module A labels too sparse; selective \u0394MAE 0.018 < frozen 0.02 stop margin"
+}

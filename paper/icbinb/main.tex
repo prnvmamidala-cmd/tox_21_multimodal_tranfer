@@ -1,0 +1,503 @@
+\documentclass{article}
+
+\usepackage[dblblindworkshop]{neurips_2026}
+
+\workshoptitle{I Can't Believe It's Not Better (ICBINB): Failure Modes of AI in Biology}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\title{Same-drug continuity, not a target profile: a negative result for trial adverse-event transfer}
+
+\author{Anonymous}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Biological features are often added to chemical fingerprints in the hope that they survive a change of population.
+On smoothed adverse-event incidence from ClinicalTrials.gov, that hope fails once evaluation is restricted to structures absent from the adult-trial rows.
+The confirmatory task is adult-only-trial to pediatric-only-trial transfer of a reporting rate, not clinical pediatric toxicity and not an in-vitro assay.
+A ridge model with pre-specified penalty $10$, Morgan fingerprints, and RDKit descriptors has macro Spearman $0.0314$ on twelve endpoints frozen before fitting.
+Early fusion with a $15$-target ChEMBL profile (mean missingness $0.9242$) reaches $0.0339$.
+The difference is $0.0025$ ($95\%$ CI $-0.0106$ to $0.0149$).
+Against five training-row permutations of the profile the difference is $0.0031$ ($95\%$ CI $-0.0143$ to $0.0213$).
+A coverage gate differs from chemistry by $-0.0007$ ($95\%$ CI $-0.0029$ to $0.0014$) and raises the negative-transfer count from $5$ endpoints to $7$.
+The same chemistry model scores $0.1923$ on structures that do appear in both trial sets.
+The historical appearance of a pediatric signal is largely that overlap.
+The null is narrow: it concerns this sparse channel and this label.
+\end{abstract}
+
+\section{Introduction: expected versus observed}
+\label{sec:intro}
+
+A recurring expectation in molecular machine learning is that a biological representation should help when chemistry alone is asked to move to a new set of compounds.
+The desired improvement here was specific.
+On pediatric-only-trial adverse-event incidence, early fusion of chemistry with a ChEMBL target profile, and a gate that trusts that fusion only when the profile is observed, should beat chemistry, and should beat chemistry plus a profile whose compound--target correspondence has been destroyed.
+Negative transfer, in the sense of a source-trained multimodal score that ranks the target worse than the chemical score \citep{zhang2023negativetransfer}, should become less common under the gate.
+
+What was observed is a null on all three pre-specified tests (Section~\ref{sec:results}).
+The same chemical model looks much stronger on pediatric-trial rows whose structure was already present in an adult trial (macro Spearman $0.1923$) than on rows whose structure was not ($0.0314$).
+% src: results/tables/slice_macro.csv structure_seen/chem 0.1923 and structure_unseen/chem 0.0314
+An archived review of an earlier model on these tables already described an overall mean near $0.12$ as continuity of the shared structures rather than generalization.
+% src: archive/prior_verdicts/pediatric_transfer_v3_independent_review.json, wording ``overall mean ~0.12''; not recomputed in this fit
+This paper's contribution is to freeze the structure-unseen slice, the eligibility rule, and the three contrasts before fitting, and to report the failure with intervals.
+
+The four elements requested by the workshop call are marked in place.
+\textbf{Problem.} Section~\ref{sec:problem}.
+\textbf{Proposed approach.} Section~\ref{sec:protocol}.
+\textbf{Observed outcome.} Section~\ref{sec:results}.
+\textbf{Reason for failure.} Section~\ref{sec:why}.
+
+\section{Related work}
+\label{sec:related}
+
+MoleculeNet popularized scaffold-aware evaluation of in-vitro toxicity models and included the Tox21 assay panel \citep{wu2018moleculenet,tice2013tox21}.
+Extended-connectivity fingerprints \citep{rogers2010ecfp} and Bemis--Murcko frameworks \citep{bemis1996frameworks} are the chemical representation and the grouping used here.
+The Chemical Checker showed that bioactivity signatures can extend similarity beyond structure \citep{duranfrigola2020chemicalchecker}.
+Those signatures were not regenerated for this study: the generator did not import, and a data license was not established.
+An archived Tox21 notebook, using a different model, reported pooled task-macro AUROC $0.8224$ for chemistry and $0.8254$ for chemistry plus nine signature spaces.
+% src: reports/initial_audit.md Notebook 2 saved cell output; not recomputed
+The difference of those two saved figures is $0.0030$.
+% src: reports/initial_audit.md, 0.8254 minus 0.8224
+That gap is prior exploratory context.
+It is not a result of the fit below, and it is not a trial-incidence result.
+
+ChEMBL is a public bioactivity resource \citep{zdrazil2024chembl}.
+The matrix used here is a $15$-target profile inherited from an earlier adult-coverage filter, not a current full ChEMBL release.
+The release identifier was not in the handoff.
+Correlation alignment (CORAL) is a transductive covariance-matching method that does not use target labels \citep{sun2016coral}.
+It is reported only as an exploratory arm.
+Ridge regression is the confirmatory estimator \citep{hoerl1970ridge}, fit with scikit-learn \citep{pedregosa2011sklearn}.
+Tree models use the pre-specified sizes in the config, including XGBoost \citep{chen2016xgboost}, and do not choose the claim.
+
+\section{Problem setup and task renaming}
+\label{sec:problem}
+
+\textbf{Problem.}
+The biological task that the files can support is ranking of smoothed logit adverse-event incidence across drug structures.
+The source domain is adult-only interventional trials (minimum age at least $18$).
+The target domain is pediatric-only trials (maximum age at most $17$).
+Mixed-age trials were already excluded by the upstream aggregate \citep{clinicaltrials}.
+The label is $(a+0.5)/(n+1)$ and then the logit, where $a$ is the count affected and $n$ is the count at risk.
+The loader checks that this recomputation matches the stored column.
+The quantity is a trial-reporting construct.
+It is entangled with indication, dose, schedule, and how completely a trial records events.
+It is not a causal risk and not a developmental-toxicity call.
+
+Calling the target ``pediatric toxicity'' would overstate the label.
+Tox21 labels are in-vitro assay activities.
+FAERS reporting fractions, used in earlier probes of $137$ and $46$ compounds, do not match either Tox21 or this incidence label, and this paper reports no performance number for them.
+The renamed confirmatory task is adult-trial to pediatric-trial adverse-event incidence transfer.
+
+The primary population is the pediatric-trial structures whose InChIKey \citep{heller2015inchi} is absent from every adult-trial row: $201$ structures, against $634$ structures present in both sets, out of $835$ pediatric-trial and $2{,}856$ adult-trial structures.
+% src: results/tables/dataset_characteristics.csv
+A pre-fit count found that $48$ of those $201$ still share a Bemis--Murcko scaffold with an adult structure.
+% src: reports/experiment_log.md, measured before model fitting
+Scaffold-unseen rows are a sensitivity slice, not the primary filter.
+
+The target metric is the unweighted mean, across eligible endpoints, of Spearman rank correlation.
+Accuracy is not used.
+AUROC is not used on the logit incidence label.
+A multimodal benefit required both of the following $95\%$ endpoint-bootstrap intervals to lie entirely above $0$: early fusion minus chemistry, and early fusion minus the mean of the permutation seeds.
+A gate gain required the coverage-gate interval versus chemistry to lie entirely above $0$.
+Separately, the gate reduces negative transfer only if it has strictly fewer endpoints with a negative delta than early fusion and its macro Spearman is at least chemistry minus $0.005$.
+Intervals that include $0$ are not superiority claims.
+Benjamini--Hochberg $q$-values are reported across the three tests \citep{benjamini1995fdr}.
+
+\section{Data provenance}
+\label{sec:data}
+
+Chemistry is recomputed from SMILES: Morgan radius $2$, $2{,}048$ bits \citep{rogers2010ecfp}, plus $217$ RDKit descriptors \citep{rdkit}, with a parameter-free $\log(1+x)$ on two unbounded indices before any split.
+The model matrix has $2{,}265$ chemistry columns after the training-fold filters.
+% src: results/tables/dataset_characteristics.csv n_chem_features 2265
+Twelve InChIKeys had conflicting SMILES; the mode was kept.
+Standardization failures were $0$ on $3{,}057$ structures.
+% src: reports/experiment_log.md
+Median imputation, clipping, a variance filter, and scaling are fit on training rows only.
+
+The biological channel is $15$ ChEMBL targets plus $15$ missingness indicators.
+Mean missingness is $0.9242$, mean coverage is $0.0758$, and the fraction of structures with any observed target is $0.3811$.
+% src: results/tables/representation_coverage.csv
+Coverage is one minus mean target missingness.
+The profile was not derived from the trial labels.
+Chemical Checker signatures are absent; treating the code license of the generator as a data license would be a mistake.
+The ChEMBL-derived matrix is not redistributed with this draft.
+
+Endpoints need at least $200$ adult rows and at least $40$ structure-unseen rows.
+That cutoff was fixed before the confirmatory fit.
+It keeps $12$ of $15$ endpoints and drops congenital/developmental ($24$ unseen), hepatic ($32$), and renal ($34$).
+% src: results/tables/endpoint_inclusion.csv
+Per-endpoint unseen counts on the kept endpoints run from $49$ (cardiac) to $200$ (the two aggregate labels).
+
+\section{Protocol}
+\label{sec:protocol}
+
+\textbf{Proposed approach.}
+The hypothesis was that, where targets are measured, the profile carries information about adverse-event incidence that fingerprints miss, and that a gate
+\[
+\hat y = (1-g)\,\hat y_{\mathrm{chem}} + g\,\hat y_{\mathrm{early}},
+\]
+with $g$ equal to the fraction of the $15$ targets observed, would fall back to chemistry when the profile is empty and would therefore cut negative transfer.
+
+The confirmatory estimator is ridge regression with penalty $10$, solver \texttt{lsqr}, not tuned on pediatric labels \citep{hoerl1970ridge}.
+A nested penalty search exists in a full config and was not run.
+Adult in-domain scores are five-fold GroupKFold on Bemis--Murcko scaffolds.
+Fusion weights and isotonic maps are fit on those adult out-of-fold predictions only.
+Permutation seeds are $101$, $202$, $303$, $404$, and $505$.
+Each permutation shuffles training rows of the biological block and leaves test rows intact.
+The endpoint-bootstrap uses $1{,}000$ resamples and seed $0$.
+% src: results/tables/hyperparameters.csv
+Random forest and XGBoost are robustness checks at $40$ trees.
+Their adult out-of-fold loop is off in this run.
+CORAL, after a source-fit principal-component projection of width $32$, and importance weighting see unlabeled pediatric chemistry \citep{sun2016coral}.
+A target-only ridge reference uses labels on half of the structure-unseen compounds.
+None of those three is a confirmatory test.
+Adversarial and kernel alignment methods were not fit, because a fair tuning loop would have been tempted to use the transfer labels.
+
+Leakage checks on the fit recorded disjoint adult folds, a permutation that preserves the training multiset, preprocessing statistics that ignore the held-out fold, and a structure-unseen mask with no adult overlap.
+The wall clock of the confirmatory process was $626$ seconds on four threads, with features already cached, covering $15$ trial endpoints and a separate Tox21 logistic arm.
+% src: results/tables/compute_runtime.csv
+
+\section{Observed outcome}
+\label{sec:results}
+
+On the structure-unseen slice the macro Spearman values are $0.0314$ (chemistry), $0.0339$ (early fusion), and $0.0308$ (coverage gate).
+% src: reports/results.md, also results/metrics/primary_claims.json
+Table~\ref{tab:primary} is the confirmatory family.
+All three intervals include $0$.
+The Benjamini--Hochberg $q$-values are $0.7600$, $0.7600$, and $0.7600$.
+A Wilcoxon signed-rank $p$-value on the twelve early-minus-chemistry deltas is $0.5186$.
+Endpoints share compounds, so that $p$-value is descriptive only.
+The pre-specified multimodal benefit is not supported.
+The gate does not meet the gain rule or the negative-transfer rule: $7$ endpoints versus $5$.
+
+\begin{table}[t]
+\caption{Confirmatory contrasts on the structure-unseen slice. Ridge, penalty $10$, twelve eligible endpoints. Intervals are percentile bootstraps over endpoints ($1{,}000$ draws, seed $0$).}
+\label{tab:primary}
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+Contrast & Delta & $95\%$ CI low & $95\%$ CI high \\
+\midrule
+Early fusion minus chemistry & $0.0025$ & $-0.0106$ & $0.0149$ \\
+Early fusion minus permuted biology & $0.0031$ & $-0.0143$ & $0.0213$ \\
+Coverage gate minus chemistry & $-0.0007$ & $-0.0029$ & $0.0014$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+% src: results/tables/primary_contrasts.csv
+
+Changing the unseen-count cutoff after the fact does not create a positive claim.
+At a minimum of $20$ unseen structures ($15$ endpoints) the early-minus-chemistry macro delta is $0.0049$; at $60$ ($10$ endpoints) it is $0.0019$.
+The gate deltas are $-0.0023$ and $-0.0014$.
+% src: results/tables/eligibility_sensitivity.csv
+Chemistry's own macro interval on the primary slice includes $0$: $0.0314$ ($95\%$ CI $-0.0165$ to $0.0828$).
+% src: results/tables/exploratory_intervals.csv spearman_chem; this interval is not in the confirmatory family
+
+Figure~\ref{fig:chem} compares the two scores endpoint by endpoint, and Figure~\ref{fig:paired} shows the paired differences.
+Dermatologic is the largest negative point estimate ($-0.0541$, $n=82$).
+Psychiatric is the largest positive ($0.0498$, $n=64$).
+The full list is in the appendix.
+Adult out-of-fold selection set the global mixture weight to $1$, which discards chemistry and returns early fusion.
+% src: reports/results.md late_global_weight 1.0000; results/tables/transfer_macro.csv late_global_chem_early macro_spearman 0.0339 equals early fusion
+There was no in-domain headroom with which to learn a cautious gate.
+Adult scaffold chemistry on the same twelve endpoints has macro Spearman $0.0220$ ($95\%$ CI $0.0092$ to $0.0386$) and macro RMSE $3.0621$.
+% src: results/tables/exploratory_intervals.csv adult_chem_spearman; results/tables/adult_indomain.csv ridge/chem
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/04_chem_vs_multimodal.pdf}
+  \caption{Per-endpoint chemistry versus early fusion on the structure-unseen slice. Points near the diagonal are endpoints where the profile does not move the ranking.}
+  \label{fig:chem}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/05_paired_differences.pdf}
+  \caption{Endpoint-level early-fusion minus chemistry Spearman on the structure-unseen slice. The macro difference is the confirmatory estimand; several endpoints move in opposite directions.}
+  \label{fig:paired}
+\end{figure}
+
+\section{Why the expected gain did not appear}
+\label{sec:why}
+
+\textbf{Reason for failure.}
+Four facts, all computed from the saved predictions, account for the null without promoting a new primary test.
+
+\textbf{The apparent signal is same-drug continuity.}
+Table~\ref{tab:slices} decomposes the pediatric rows.
+Chemistry's macro Spearman is $0.1923$ on structure-seen rows (mean $n$ per endpoint $404.6667$), $0.0314$ on structure-unseen rows (mean $n$ $109.6667$), and $0.1434$ on all pediatric rows (mean $n$ $514.3333$).
+% src: results/tables/slice_macro.csv
+Early fusion tracks chemistry on each of those slices ($0.1959$, $0.0339$, $0.1480$).
+A pooled ``pediatric'' number mostly restates drugs the adult model has already seen.
+Scaffold-unseen chemistry is $0.0180$ (mean $n$ $84.8333$), close to the structure-unseen result rather than to the seen-structure result.
+
+\begin{table}[t]
+\caption{Exploratory slice means for ridge Spearman. Structure-seen rows share an InChIKey with the adult trials. Coverage strata split the structure-unseen rows. Blank biology cells are undefined Spearman.}
+\label{tab:slices}
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Slice & Chem. & Early & Biology & Mean $n$ \\
+\midrule
+Structure-seen & $0.1923$ & $0.1959$ & $0.0837$ & $404.67$ \\
+Structure-unseen & $0.0314$ & $0.0339$ & $0.0723$ & $109.67$ \\
+All pediatric & $0.1434$ & $0.1480$ & $0.0766$ & $514.33$ \\
+Unseen, any target & $0.2040$ & $0.1831$ & $0.1843$ & $24.00$ \\
+Unseen, no target & $-0.0093$ & $-0.0081$ & --- & $85.67$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+% src: results/tables/slice_macro.csv; mean n displayed to two decimals from the four-decimal table values 404.6667, 109.6667, 514.3333, 24.0000, 85.6667
+
+\textbf{The biological channel is mostly missing.}
+Mean missingness $0.9242$ means the gate is near zero for most compounds, so the gated prediction is nearly the chemical prediction (delta $-0.0007$).
+Where any target is observed, mean $n$ is $24$ and chemistry ($0.2040$) is at least as high as early fusion ($0.1831$).
+Where no target is observed, biology's Spearman is undefined because that block does not vary, and chemistry is $-0.0093$.
+Missingness indicators alone have macro Spearman $0.0246$ ($95\%$ CI $-0.0381$ to $0.0821$), so the indicators are not a hidden label leak.
+% src: results/tables/exploratory_intervals.csv spearman_missingness
+Figure~\ref{fig:coverage} shows how thin the observed profile is.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/03_bio_coverage.pdf}
+  \caption{Biological coverage on the trial structures. Most compounds have no observed ChEMBL target in this $15$-target vocabulary, so a coverage gate has little room to depart from chemistry.}
+  \label{fig:coverage}
+\end{figure}
+
+\textbf{The chemical baseline is weak on the shift that matters.}
+Adult scaffold Spearman $0.0220$ is detectably positive and practically small, and the structure-unseen chemistry interval includes $0$.
+A fusion test on top of a near-null ranking has little headroom.
+The adult macro RMSE of $3.0621$ on the logit scale is a second sign that the pre-specified penalty does not produce a sharp chemical score.
+Because the penalty was not chosen on adult folds, this paper cannot say whether a different frozen penalty would move the point estimate.
+It can say that the penalty was not chosen on the transfer test.
+
+\textbf{The learned weight collapsed.}
+The adult out-of-fold grid selected weight $1$ on early fusion.
+Early and chemistry differ by $0.0004$ Spearman in that domain ($0.0224$ versus $0.0220$).
+% src: results/tables/adult_indomain.csv ridge early 0.0224 and chem 0.0220
+A validation rule with no source-domain gap cannot learn to ignore an unreliable channel.
+Fixed $50/50$ mixtures and endpoint-wise weights land in the same narrow band as early fusion (macro Spearman $0.0330$ to $0.0345$ on the unseen slice).
+% src: results/tables/transfer_macro.csv fixed_50_50_chem_bio 0.0345, fixed_50_50_chem_early 0.0335, late_endpoint_chem_early 0.0330
+Random and permuted gates do as well ($0.0307$ and $0.0323$).
+The non-deployable oracle, which looks at the label, reaches $0.0690$ and is only a ceiling.
+
+Boundary conditions follow directly.
+Do not read a multimodal null on a $15$-target, $92\%$ missing profile as a statement about biological representations in general.
+Do not read a structure-seen Spearman near $0.19$ as evidence that the model generalized to new drugs.
+Do not deploy the score as a clinical or regulatory safety tool.
+
+\section{Lessons for multimodal biomedical transfer}
+\label{sec:lessons}
+
+Overlap audits come before transfer claims.
+Here, $634$ of $835$ pediatric-trial structures are already in the adult table.
+Removing them changes the chemical Spearman from $0.1434$ to $0.0314$.
+Any benchmark that scores a ``new population'' without an identifier-level exclusion will credit continuity.
+
+A reliability gate needs a source-domain signal to train against.
+Weight collapse to pure fusion is a failure mode of validation-set mixing when the two source scores are interchangeable.
+The gate then cannot protect the target.
+
+Report the channel, not the word ``biology.''
+Coverage, the fraction of compounds with any observation, and a missingness-only control belong next to the multimodal delta.
+In this file those three numbers are $0.0758$, $0.3811$, and a contrast versus chemistry whose interval includes $0$ (missingness minus chemistry $-0.0068$, $95\%$ CI $-0.0747$ to $0.0739$).
+% src: results/tables/exploratory_intervals.csv delta_missingness
+
+Pre-register the family of tests.
+Exploratory level intervals that exclude $0$ are easy to promote after the fact.
+Biology-only and CORAL are in that category and are confined to the appendix.
+They do not overturn Table~\ref{tab:primary}.
+
+Name the label.
+Trial incidence, spontaneous-report fractions, and assay hits answer different questions.
+Mixing them produces an endpoint shift that no representation can honestly paper over.
+
+\section{Limitations}
+\label{sec:limits}
+
+The structure-unseen sets are small, and the twelve endpoints are not independent.
+The endpoint bootstrap matches the claim and is still a bootstrap of twelve numbers.
+Forty-eight of the $201$ unseen structures share a scaffold with the source, so even the primary slice is not a pure scaffold holdout.
+The ChEMBL release is unidentified, and the vocabulary was chosen by an earlier adult-coverage filter.
+Chemical Checker signatures were not built.
+The full nested-penalty config was not executed.
+CORAL and importance weighting see unlabeled target chemistry; the target-only reference sees target labels.
+Indication and reporting completeness remain inside the label.
+Nothing here is a clinical decision rule.
+
+\section*{Broader impact}
+
+The useful outcome is a negative result with the endpoint named correctly.
+Publishing structure-seen performance as pediatric generalization would overstate what a trial-reporting model can do for dosing, developmental toxicity, or regulatory screening.
+The trial aggregates are structure-level counts from a public registry, not patient records.
+A ChEMBL-derived matrix carries a share-alike obligation and an unidentified release, so it is not included with this draft.
+The predictions required to recompute the decimals are structure identifiers, endpoint names, smoothed labels, and scores.
+
+\section*{Reproducibility}
+
+The confirmatory command is \texttt{python scripts/reproduce\_all.py --config configs/reduced.yaml}.
+It refuses to start unless the analysis plan contains the frozen-protocol marker, which was committed before the fit.
+The fit manifest records commit \texttt{a9324cf}, timestamp 2026-10-19T15:29:45Z, penalty mode prespecified, and the package versions used (Python $3.12.3$, scikit-learn $1.9.1$, RDKit $2026.9.1$, XGBoost $3.4.1$).
+% src: results/run_manifest.json and results/tables/compute_runtime.csv
+The trial prediction file has SHA-256 \texttt{37dbf42edac39337d9e76aeb446661dd7e3a0e16429d453cfd4d93abf68faa0d}.
+Tables and figures are functions of that file.
+The synthetic smoke config does not use the trial tables and does not update the claim.
+The nested-penalty command was not the source of any number in Table~\ref{tab:primary}.
+Linked code should be stripped of repository URLs and names before review, because the public archive identifies the authors.
+
+\section*{Use of large language models}
+
+A large language model drafted the prose of this manuscript from the saved tables and the frozen analysis plan.
+It did not choose the eligibility cutoff, the penalty, the permutation seeds, or the three confirmatory tests.
+Numerical sentences were checked against those tables.
+A human author must still read the compiled PDF before any submission.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+
+\section{Exploratory arms that are not confirmatory}
+\label{app:explore}
+
+Table~\ref{tab:explore} repeats endpoint-bootstrap intervals that were not in the Benjamini--Hochberg family.
+Biology-only macro Spearman is $0.0723$ ($95\%$ CI $0.0042$ to $0.1441$).
+Biology minus chemistry is $0.0409$ ($95\%$ CI $-0.0383$ to $0.1220$).
+The second interval includes $0$.
+CORAL chemistry is $0.0985$ ($95\%$ CI $0.0172$ to $0.1753$), and CORAL minus chemistry is $0.0671$ ($95\%$ CI $-0.0588$ to $0.1711$).
+CORAL sees unlabeled pediatric features \citep{sun2016coral}.
+Importance-weighted chemistry is $0.0239$ ($95\%$ CI $-0.0154$ to $0.0639$).
+Early fusion without missingness indicators differs from chemistry by $0.0025$ ($95\%$ CI $-0.0041$ to $0.0100$).
+A chemistry model trained on permuted adult labels scores $-0.0348$, which is a negative control rather than a transfer method.
+% src: results/tables/transfer_macro.csv ridge chem_ylabel_permuted_seed_101
+
+\begin{table}[h]
+\caption{Exploratory endpoint-bootstrap intervals on the twelve eligible endpoints. Not adjusted with the three confirmatory tests.}
+\label{tab:explore}
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Quantity & Estimate & $95\%$ CI \\
+\midrule
+Biology only & $0.0723$ & $0.0042$, $0.1441$ \\
+Biology minus chemistry & $0.0409$ & $-0.0383$, $0.1220$ \\
+CORAL chemistry & $0.0985$ & $0.0172$, $0.1753$ \\
+CORAL minus chemistry & $0.0671$ & $-0.0588$, $0.1711$ \\
+Importance-weighted chemistry & $0.0239$ & $-0.0154$, $0.0639$ \\
+Missingness only & $0.0246$ & $-0.0381$, $0.0821$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+% src: results/tables/exploratory_intervals.csv
+
+On a scaffold holdout that uses target labels for half of the structure-unseen compounds, ridge chemistry has macro Spearman $0.1211$ and early fusion $0.1166$.
+% src: results/tables/target_reference.csv
+That arm is a labeled reference, not a zero-shot transfer, and fusion does not win it.
+
+Tree point estimates on the same unseen slice, without a pre-specified interval, are: random-forest chemistry $0.0548$ and early fusion $0.0244$; XGBoost chemistry $0.0050$ and early fusion $0.0552$.
+% src: results/tables/transfer_macro.csv
+The XGBoost gap was not a confirmatory test, adult out-of-fold predictions were not used to set its hyperparameters, and no interval was pre-registered.
+It is reported so that it is not hidden.
+It is not a claim that gradient boosting plus the profile succeeds.
+
+Moderator correlations of the early-minus-chemistry delta with coverage ($-0.5324$), scaffold novelty ($0.5464$), adult chemistry Spearman ($-0.1119$), unseen $n$ ($-0.2312$), and mean label ($0.1748$) use twelve endpoints.
+% src: results/tables/moderator_associations.csv
+They are not causal effects.
+
+Figure~\ref{fig:perm} compares true and permuted biological features.
+The permutation seeds' chemistry-plus-biology macro Spearman values on the unseen slice are $0.0278$, $0.0284$, $0.0470$, $0.0212$, and $0.0296$ for seeds $101$, $202$, $303$, $404$, and $505$.
+% src: results/tables/transfer_macro.csv ridge chem_permuted_bio_seed_*
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/06_true_vs_permuted.pdf}
+  \caption{True biological features versus training-row permutations. The confirmatory comparison is early fusion against the mean of these controls, not against a single seed.}
+  \label{fig:perm}
+\end{figure}
+
+\section{Tox21 chemical baseline}
+\label{app:tox21}
+
+Tox21 is a separate in-vitro question \citep{wu2018moleculenet,tice2013tox21}.
+The arm in this repository is logistic regression on Morgan fingerprints only, with scaffold GroupKFold and a shuffled $K$-fold, both with five splits.
+It is not the archived XGBoost pipeline.
+Biological signatures were not run.
+Compounds: $7{,}587$.
+Labels: $75{,}521$.
+An assay is scored only with at least $20$ positives and $20$ negatives; all twelve tasks met that bar.
+% src: reports/results.md Tox21 section and results/metrics/tox21_summary.json
+
+Scaffold-split macro AUROC is $0.6895$ and macro AUPRC is $0.2440$.
+Nuclear-receptor assays are $0.7034$ and stress-response assays are $0.6700$ under that split.
+The random split, which allows scaffold leakage, has macro AUROC $0.7331$ and macro AUPRC $0.3200$.
+The random-minus-scaffold gap is $0.0436$.
+Nuclear receptor versus stress response is a comparison of assay families under one split, not a label-aligned transfer.
+The gap shows that this chemical baseline does rank assay hits, and that a random split overstates that ranking.
+It does not rescue the trial-incidence null.
+
+The archived notebook number $0.8224$ versus $0.8254$ used XGBoost and, for the second figure, Chemical Checker spaces that this fit did not rebuild.
+% src: reports/initial_audit.md
+Those two AUROCs are not recomputed here.
+
+\section{Endpoint deltas}
+\label{app:endpoints}
+
+Table~\ref{tab:endpoints} lists every eligible endpoint.
+Signs disagree.
+No endpoint was dropped after seeing its delta.
+The three endpoints below the frozen count cutoff stay out of the mean.
+
+\begin{table}[h]
+\caption{Structure-unseen ridge Spearman by endpoint, early fusion minus chemistry. Sorted by the delta. All twelve rows enter the confirmatory macro.}
+\label{tab:endpoints}
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Endpoint & $n$ & Chem. & Early & Delta \\
+\midrule
+Dermatologic & $82$ & $0.0298$ & $-0.0243$ & $-0.0541$ \\
+Any other adverse event & $200$ & $0.0443$ & $0.0316$ & $-0.0127$ \\
+Mortality & $144$ & $0.0117$ & $0.0004$ & $-0.0113$ \\
+Endocrine/metabolic & $72$ & $-0.0169$ & $-0.0211$ & $-0.0042$ \\
+Neurologic & $106$ & $0.0526$ & $0.0523$ & $-0.0003$ \\
+Any serious & $200$ & $0.0477$ & $0.0520$ & $0.0043$ \\
+Cardiac & $49$ & $0.2402$ & $0.2449$ & $0.0047$ \\
+Hematologic & $59$ & $-0.1594$ & $-0.1526$ & $0.0068$ \\
+Respiratory & $107$ & $0.0815$ & $0.0915$ & $0.0100$ \\
+Immune/infection & $113$ & $-0.0309$ & $-0.0171$ & $0.0138$ \\
+Gastrointestinal & $120$ & $-0.0012$ & $0.0223$ & $0.0235$ \\
+Psychiatric & $64$ & $0.0777$ & $0.1275$ & $0.0498$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+% src: reports/results.md endpoint list, which matches results/statistics/endpoint_contrasts.csv
+
+\section{Design schematic}
+\label{app:design}
+
+Figure~\ref{fig:design} is the analysis flow used to generate the predictions.
+It does not add a numeric claim.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/01_design_schematic.pdf}
+  \caption{Flow from adult-trial fitting to the structure-unseen evaluation. Counts and metrics in the text are taken from the saved tables, not from this drawing.}
+  \label{fig:design}
+\end{figure}
+
+\end{document}

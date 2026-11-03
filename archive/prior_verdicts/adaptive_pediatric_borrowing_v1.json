@@ -1,0 +1,32 @@
+{
+  "project": "adaptive_pediatric_borrowing_v1",
+  "verdict": "NOT_SUPPORTED",
+  "evidence_type": "exploratory_reused_2024_2026Q2",
+  "confirmatory": "NOT_RUN_NO_UNUSED_FUTURE_QUARTERS",
+  "headroom_gate_passed": false,
+  "headroom_gate": {
+    "adult_gain_dev_sparse": 0.013933306221516784,
+    "oracle_gain_dev_sparse": 0.07169297545571962,
+    "n_dev_sparse": 1666,
+    "decision": "STOP_NO_DEMONSTRATED_OPPORTUNITY"
+  },
+  "adaptive_methods_run": false,
+  "primary_comparison": null,
+  "test_sparse_metrics": {
+    "B4": {
+      "mae": 1.172818017561119,
+      "spearman": 0.5383153993271211,
+      "n": 5719
+    },
+    "adult_informed": {
+      "mae": 1.1311865629445634,
+      "spearman": 0.5370261031976233,
+      "n": 5719
+    }
+  },
+  "target": "EB-shrunk logROR (reporting association, not incidence/causal risk)",
+  "protocol_sha256": "ddac022ba523412aeb274b6ee1afc60dbe21540a301b931d269895d695686497",
+  "generated_at": "2026-09-27T14:23:18.956743-07:00",
+  "justification": "DEV headroom gate failed: adult-informed borrowing did not meet the prespecified practical MAE reduction (\u22650.02) and/or oracle headroom criteria on the identifiable sparse pediatric subset (prior ped a\u22645). Per protocol, adaptive method development was stopped. 2024\u20132026 evaluation remains exploratory only; confirmatory NOT_RUN (no unused FAERS quarter beyond 2026Q2). Null is accepted without retuning.",
+  "language": "No clinical-readiness or causal pediatric safety claims."
+}

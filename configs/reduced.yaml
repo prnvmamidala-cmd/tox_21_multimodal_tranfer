@@ -1,0 +1,5 @@
+name: reduced
+note: >
+  Confirmatory ridge uses pre-specified alpha 10. Tree models use the
+  pre-specified sizes below and are robustness checks, not the primary claim.
+  This file does not change eligibility or the primary slice.

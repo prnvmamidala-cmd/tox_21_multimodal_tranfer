@@ -1,0 +1,25 @@
+{
+  "config_name": "reduced",
+  "config_sha256": "f0226a96caad9ecd195eec70abd44ded8398f6e8fcc33e9714df0238407e60f1",
+  "confirmatory": true,
+  "git_commit": "a9324cf9bcffd5d406cb21b5e70c16f60382d017",
+  "hardware": {
+    "machine": "x86_64",
+    "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+    "processor": "x86_64"
+  },
+  "packages": {
+    "PyYAML": "6.0.1",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "python": "3.12.3",
+    "rdkit": "2026.9.1",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "xgboost": "3.4.1"
+  },
+  "predictions": "results/predictions/predictions.csv.gz",
+  "timestamp_utc": "2026-10-19T15:29:45Z"
+}

@@ -1,0 +1,385 @@
+{
+  "status": "computed_from_saved_predictions",
+  "primary_slice": "structure_unseen",
+  "primary_model": "ridge",
+  "ridge_alpha": 10.0,
+  "alpha_mode": "prespecified",
+  "n_endpoints_total": 15,
+  "n_endpoints_eligible": 12,
+  "eligible_endpoints": [
+    "ANY_OTHER_AE",
+    "ANY_SERIOUS",
+    "CARDIAC",
+    "DERMATOLOGIC",
+    "ENDOCRINE_METABOLIC",
+    "GASTROINTESTINAL",
+    "HEMATOLOGIC",
+    "IMMUNE_INFECTION",
+    "MORTALITY",
+    "NEUROLOGIC",
+    "PSYCHIATRIC",
+    "RESPIRATORY"
+  ],
+  "excluded_endpoints": [
+    "CONGENITAL_DEVELOPMENTAL",
+    "HEPATIC",
+    "RENAL"
+  ],
+  "macro_spearman_chem": 0.03143059681822127,
+  "macro_spearman_early": 0.033940629041372176,
+  "macro_spearman_gate": 0.030756744178476996,
+  "delta_early_minus_chem": {
+    "estimate": 0.002510032223150905,
+    "ci_low": -0.010602670932813118,
+    "ci_high": 0.014946119553882729,
+    "n": 12,
+    "p_bootstrap": 0.682
+  },
+  "delta_early_minus_perm_mean": {
+    "estimate": 0.0031362833311243863,
+    "ci_low": -0.014252046133946598,
+    "ci_high": 0.021332022981374453,
+    "n": 12,
+    "p_bootstrap": 0.76
+  },
+  "delta_gate_minus_chem": {
+    "estimate": -0.0006738526397442717,
+    "ci_low": -0.00286624332477511,
+    "ci_high": 0.001397957308345362,
+    "n": 12,
+    "p_bootstrap": 0.546
+  },
+  "bh_q_early_perm_gate": [
+    0.7600000000000001,
+    0.7600000000000001,
+    0.7600000000000001
+  ],
+  "negative_transfer_endpoints_early": 5,
+  "negative_transfer_endpoints_gate": 7,
+  "multimodal_benefit_supported": false,
+  "gate_macro_gain_supported": false,
+  "gate_reduces_negative_transfer": false,
+  "wilcoxon_early_minus_chem_p": 0.5185546875,
+  "wilcoxon_note": "Wilcoxon signed-rank assumes a symmetric null distribution of paired deltas and independent pairs. Endpoints share compounds, so independence fails; treat p as descriptive.",
+  "eligibility_sensitivity": [
+    {
+      "min_unseen_n": 20,
+      "n_endpoints": 15,
+      "macro_delta_early": 0.004867565242814742,
+      "macro_delta_gate": -0.002335143767744615
+    },
+    {
+      "min_unseen_n": 60,
+      "n_endpoints": 10,
+      "macro_delta_early": 0.0018624194011979483,
+      "macro_delta_gate": -0.001419544907232509
+    }
+  ],
+  "moderators_exploratory": [
+    {
+      "moderator": "mean_coverage_unseen",
+      "spearman_with_early_minus_chem": -0.5324001159371432,
+      "n_endpoints": 12,
+      "note": "Exploratory association across endpoints. Not a causal effect."
+    },
+    {
+      "moderator": "frac_scaffold_novel",
+      "spearman_with_early_minus_chem": 0.54641064530391,
+      "n_endpoints": 12,
+      "note": "Exploratory association across endpoints. Not a causal effect."
+    },
+    {
+      "moderator": "adult_chem_spearman",
+      "spearman_with_early_minus_chem": -0.11188811188811189,
+      "n_endpoints": 12,
+      "note": "Exploratory association across endpoints. Not a causal effect."
+    },
+    {
+      "moderator": "n_unseen",
+      "spearman_with_early_minus_chem": -0.23117373455165427,
+      "n_endpoints": 12,
+      "note": "Exploratory association across endpoints. Not a causal effect."
+    },
+    {
+      "moderator": "mean_y_unseen",
+      "spearman_with_early_minus_chem": 0.17482517482517487,
+      "n_endpoints": 12,
+      "note": "Exploratory association across endpoints. Not a causal effect."
+    }
+  ],
+  "exploratory_intervals": [
+    {
+      "quantity": "spearman_chem",
+      "label": "macro Spearman, chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.03143059681822127,
+      "ci_low": -0.01653362901731911,
+      "ci_high": 0.08277759307148416,
+      "p_bootstrap": 0.218,
+      "n": 12
+    },
+    {
+      "quantity": "spearman_early",
+      "label": "macro Spearman, early fusion",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.033940629041372176,
+      "ci_low": -0.016509333951438988,
+      "ci_high": 0.08564116004218458,
+      "p_bootstrap": 0.218,
+      "n": 12
+    },
+    {
+      "quantity": "spearman_bio",
+      "label": "macro Spearman, biology only",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.0723318279881972,
+      "ci_low": 0.004169511233207684,
+      "ci_high": 0.14411116616076172,
+      "p_bootstrap": 0.042,
+      "n": 12
+    },
+    {
+      "quantity": "spearman_missingness",
+      "label": "macro Spearman, missingness only",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.02461356534930396,
+      "ci_low": -0.03809732662462992,
+      "ci_high": 0.08210453824337897,
+      "p_bootstrap": 0.404,
+      "n": 12
+    },
+    {
+      "quantity": "spearman_coral_chem_transductive",
+      "label": "macro Spearman, CORAL chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.09849011130842411,
+      "ci_low": 0.01723715591137552,
+      "ci_high": 0.17526150627491593,
+      "p_bootstrap": 0.026,
+      "n": 12
+    },
+    {
+      "quantity": "spearman_importance_weighted_chem_transductive",
+      "label": "macro Spearman, importance-weighted chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.02391977116741936,
+      "ci_low": -0.015449290872935777,
+      "ci_high": 0.06389450740202682,
+      "p_bootstrap": 0.236,
+      "n": 12
+    },
+    {
+      "quantity": "adult_chem_spearman",
+      "label": "macro adult-scaffold Spearman, chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.0219700429253116,
+      "ci_low": 0.009187224872509605,
+      "ci_high": 0.03856485830120993,
+      "p_bootstrap": 0.0,
+      "n": 12
+    },
+    {
+      "quantity": "delta_bio",
+      "label": "biology minus chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.04090123116997594,
+      "ci_low": -0.03833089399084431,
+      "ci_high": 0.12198187889798191,
+      "p_bootstrap": 0.342,
+      "n": 12
+    },
+    {
+      "quantity": "delta_missingness",
+      "label": "missingness minus chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": -0.006817031468917308,
+      "ci_low": -0.0746550136594538,
+      "ci_high": 0.07388924468464465,
+      "p_bootstrap": 0.87,
+      "n": 12
+    },
+    {
+      "quantity": "delta_coral_chem_transductive",
+      "label": "CORAL chemistry minus chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.06705951449020285,
+      "ci_low": -0.05876139501188697,
+      "ci_high": 0.17109229689252908,
+      "p_bootstrap": 0.284,
+      "n": 12
+    },
+    {
+      "quantity": "delta_importance_weighted_chem_transductive",
+      "label": "importance-weighted chemistry minus chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": -0.007510825650801908,
+      "ci_low": -0.04693482926431132,
+      "ci_high": 0.024896776776567275,
+      "p_bootstrap": 0.712,
+      "n": 12
+    },
+    {
+      "quantity": "delta_early_imputed_no_indicator",
+      "label": "early fusion without indicators minus chemistry",
+      "role": "exploratory_not_in_confirmatory_family",
+      "estimate": 0.0025182192510894096,
+      "ci_low": -0.004121705954927924,
+      "ci_high": 0.010031209947746388,
+      "p_bootstrap": 0.528,
+      "n": 12
+    }
+  ],
+  "slice_macros_exploratory": [
+    {
+      "slice": "all_pediatric",
+      "representation": "bio",
+      "macro_spearman": 0.07664900422210262,
+      "mean_n": 514.3333333333334,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "all_pediatric",
+      "representation": "chem",
+      "macro_spearman": 0.14343580343014967,
+      "mean_n": 514.3333333333334,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "all_pediatric",
+      "representation": "early",
+      "macro_spearman": 0.1480127240487624,
+      "mean_n": 514.3333333333334,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "scaffold_unseen",
+      "representation": "bio",
+      "macro_spearman": 0.05824475508411209,
+      "mean_n": 84.83333333333333,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "scaffold_unseen",
+      "representation": "chem",
+      "macro_spearman": 0.01801206954451692,
+      "mean_n": 84.83333333333333,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "scaffold_unseen",
+      "representation": "early",
+      "macro_spearman": 0.01829400293354268,
+      "mean_n": 84.83333333333333,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "structure_seen",
+      "representation": "bio",
+      "macro_spearman": 0.0837179639632634,
+      "mean_n": 404.6666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "structure_seen",
+      "representation": "chem",
+      "macro_spearman": 0.19225685416809699,
+      "mean_n": 404.6666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "structure_seen",
+      "representation": "early",
+      "macro_spearman": 0.19591697053100446,
+      "mean_n": 404.6666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "structure_unseen",
+      "representation": "bio",
+      "macro_spearman": 0.0723318279881972,
+      "mean_n": 109.66666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "structure_unseen",
+      "representation": "chem",
+      "macro_spearman": 0.03143059681822127,
+      "mean_n": 109.66666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "structure_unseen",
+      "representation": "early",
+      "macro_spearman": 0.033940629041372176,
+      "mean_n": 109.66666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "unseen_coverage_positive",
+      "representation": "bio",
+      "macro_spearman": 0.1843195048664665,
+      "mean_n": 24.0,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "unseen_coverage_positive",
+      "representation": "chem",
+      "macro_spearman": 0.20403699103725312,
+      "mean_n": 24.0,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "unseen_coverage_positive",
+      "representation": "early",
+      "macro_spearman": 0.18314357252681068,
+      "mean_n": 24.0,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "unseen_coverage_zero",
+      "representation": "bio",
+      "macro_spearman": NaN,
+      "mean_n": 85.66666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "unseen_coverage_zero",
+      "representation": "chem",
+      "macro_spearman": -0.009264325849929502,
+      "mean_n": 85.66666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    },
+    {
+      "slice": "unseen_coverage_zero",
+      "representation": "early",
+      "macro_spearman": -0.008094639885514227,
+      "mean_n": 85.66666666666667,
+      "n_endpoints": 12,
+      "role": "exploratory_slice"
+    }
+  ],
+  "late_global_weight": 1.0,
+  "late_global_weight_meaning": "Weight g in (1-g)*chemistry + g*early, chosen on adult scaffold out-of-fold Spearman. g=1 uses early fusion only.",
+  "n_structure_overlap": 634,
+  "n_structure_unseen_compounds": 201,
+  "bio_mean_missingness": 0.9241522189510413,
+  "bio_n_targets": 15,
+  "interpretation": "Early fusion minus chemistry: delta 0.0025 (95% CI -0.0106 to 0.0149; the interval includes 0). Early fusion minus the mean of the bio-permutation seeds: delta 0.0031 (95% CI -0.0143 to 0.0213; the interval includes 0). Coverage gate minus chemistry: delta -0.0007 (95% CI -0.0029 to 0.0014; the interval includes 0). The pre-specified rule for a multimodal benefit is not met. A benefit required both the early-versus-chemistry interval and the early-versus-permutation interval to lie above 0. The coverage gate does not meet the gain rule or the negative-transfer rule (negative-transfer endpoints: gate 7, early fusion 5). These statements are about smoothed adverse-event incidence in pediatric-only trials, on structures absent from the adult-trial training set. They are not clinical pediatric-toxicity performance."
+}

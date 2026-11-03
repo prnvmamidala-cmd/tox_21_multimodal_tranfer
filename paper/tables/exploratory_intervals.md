@@ -1,0 +1,14 @@
+| quantity | label | role | estimate | ci_low | ci_high | p_bootstrap | n |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| spearman_chem | macro Spearman, chemistry | exploratory_not_in_confirmatory_family | 0.0314 | -0.0165 | 0.0828 | 0.2180 | 12 |
+| spearman_early | macro Spearman, early fusion | exploratory_not_in_confirmatory_family | 0.0339 | -0.0165 | 0.0856 | 0.2180 | 12 |
+| spearman_bio | macro Spearman, biology only | exploratory_not_in_confirmatory_family | 0.0723 | 0.0042 | 0.1441 | 0.0420 | 12 |
+| spearman_missingness | macro Spearman, missingness only | exploratory_not_in_confirmatory_family | 0.0246 | -0.0381 | 0.0821 | 0.4040 | 12 |
+| spearman_coral_chem_transductive | macro Spearman, CORAL chemistry | exploratory_not_in_confirmatory_family | 0.0985 | 0.0172 | 0.1753 | 0.0260 | 12 |
+| spearman_importance_weighted_chem_transductive | macro Spearman, importance-weighted chemistry | exploratory_not_in_confirmatory_family | 0.0239 | -0.0154 | 0.0639 | 0.2360 | 12 |
+| adult_chem_spearman | macro adult-scaffold Spearman, chemistry | exploratory_not_in_confirmatory_family | 0.0220 | 0.0092 | 0.0386 | 0.0000 | 12 |
+| delta_bio | biology minus chemistry | exploratory_not_in_confirmatory_family | 0.0409 | -0.0383 | 0.1220 | 0.3420 | 12 |
+| delta_missingness | missingness minus chemistry | exploratory_not_in_confirmatory_family | -0.0068 | -0.0747 | 0.0739 | 0.8700 | 12 |
+| delta_coral_chem_transductive | CORAL chemistry minus chemistry | exploratory_not_in_confirmatory_family | 0.0671 | -0.0588 | 0.1711 | 0.2840 | 12 |
+| delta_importance_weighted_chem_transductive | importance-weighted chemistry minus chemistry | exploratory_not_in_confirmatory_family | -0.0075 | -0.0469 | 0.0249 | 0.7120 | 12 |
+| delta_early_imputed_no_indicator | early fusion without indicators minus chemistry | exploratory_not_in_confirmatory_family | 0.0025 | -0.0041 | 0.0100 | 0.5280 | 12 |

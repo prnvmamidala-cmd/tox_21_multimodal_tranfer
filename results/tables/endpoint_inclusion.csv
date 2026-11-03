@@ -1,0 +1,16 @@
+endpoint,n_adult,n_pediatric,n_structure_unseen,included_primary,reason
+ANY_OTHER_AE,2852,833,200,True,meets n thresholds
+ANY_SERIOUS,2848,833,200,True,meets n thresholds
+CARDIAC,1294,265,49,True,meets n thresholds
+CONGENITAL_DEVELOPMENTAL,319,134,24,False,below pre-specified n
+DERMATOLOGIC,1490,436,82,True,meets n thresholds
+ENDOCRINE_METABOLIC,1175,374,72,True,meets n thresholds
+GASTROINTESTINAL,1986,591,120,True,meets n thresholds
+HEMATOLOGIC,993,286,59,True,meets n thresholds
+HEPATIC,858,185,32,False,below pre-specified n
+IMMUNE_INFECTION,1715,543,113,True,meets n thresholds
+MORTALITY,2183,613,144,True,meets n thresholds
+NEUROLOGIC,1980,537,106,True,meets n thresholds
+PSYCHIATRIC,1219,350,64,True,meets n thresholds
+RENAL,1135,243,34,False,below pre-specified n
+RESPIRATORY,1555,511,107,True,meets n thresholds

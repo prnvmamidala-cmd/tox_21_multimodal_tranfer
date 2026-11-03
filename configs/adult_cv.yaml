@@ -1,0 +1,5 @@
+adult_cv:
+  n_splits: 5
+  inner_splits: 3
+  group: murcko_no_chirality
+  empty_murcko_policy: per_compound_acyclic_id

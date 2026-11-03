@@ -1,0 +1,15 @@
+transfer:
+  primary_slice: structure_unseen
+  permutation_seeds: [101, 202, 303, 404, 505]
+  bootstrap_n: 1000
+  bootstrap_seed: 0
+  late_fusion_grid: [0.0, 0.25, 0.5, 0.75, 1.0]
+  pca_components: 32
+  run_coral: true
+  run_importance_weights: true
+  run_label_permutation: true
+  run_random_features: true
+  run_target_reference: true
+  run_tox21: true
+  tox21_n_splits: 5
+  tox21_min_class: 20

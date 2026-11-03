@@ -1,0 +1,165 @@
+{
+  "aaai_readiness": "HONEST_NEGATIVE_OR_FEASIBILITY_AUDIT",
+  "b4_verification": {
+    "abs_diff_vs_ref": 0.0015285055161836647,
+    "age_counts_dev": {
+      "Adolescent": 2164,
+      "Infant": 102,
+      "Middle_adult": 25060,
+      "Middle_childhood": 877,
+      "Neonate": 37,
+      "Older_adult": 22859,
+      "Toddler": 520,
+      "Young_adult": 11337
+    },
+    "age_counts_test": {
+      "Adolescent": 4510,
+      "Infant": 361,
+      "Middle_adult": 39368,
+      "Middle_childhood": 2205,
+      "Neonate": 112,
+      "Older_adult": 36184,
+      "Toddler": 1294,
+      "Young_adult": 19906
+    },
+    "corr_vs_dart_b4": 0.9999999997503195,
+    "dart_ref_run_summary": 0.6640382197014868,
+    "global_spearman_ours": 0.6741832109498032,
+    "max_abs_diff": 0.0001360656487791878,
+    "n_dev": 62956,
+    "n_drugs": 297,
+    "n_events": 298,
+    "n_test": 103940,
+    "n_train": 157252,
+    "note": "B4 fit on train vocab-filtered; predict DEV/TEST; no eval outcomes in fit",
+    "prior_only": true,
+    "w_macro_spearman_dart_stored": 0.6625129874190278,
+    "w_macro_spearman_ours": 0.6625097141853031,
+    "within_tolerance_0.05": true
+  },
+  "confirmatory_verdict": "NOT_RUN_NO_UNUSED_FUTURE_QUARTERS",
+  "coverage_width": {
+    "mondrian_empirical_coverage_all": 0.8904848951318068,
+    "mondrian_mean_width_all": 2.5932812979842863,
+    "nominal_alpha": 0.1,
+    "nominal_coverage": 0.9,
+    "note": "Empirical only; no exact conformal guarantee under temporal shift",
+    "proposed_empirical_coverage_all": 0.8642870887050221,
+    "proposed_empirical_coverage_retained_A75": 0.8544031813225579,
+    "proposed_mean_width_all": 2.3690995944172695,
+    "proposed_mean_width_retained_A75": 1.9803697369337174
+  },
+  "data_quarters": {
+    "already_examined": "2024-01-01 \u2192 2026-04-01 (test block)",
+    "confirmatory_available": false,
+    "dev": "2023Q1\u20132023Q4",
+    "eval_exploratory": "2024Q1\u20132026Q2",
+    "latest": "2026Q2",
+    "modeling": [
+      "2018Q1",
+      "2018Q2",
+      "2018Q3",
+      "2018Q4",
+      "2019Q1",
+      "2019Q2",
+      "2019Q3",
+      "2019Q4",
+      "2020Q1",
+      "2020Q2",
+      "2020Q3",
+      "2020Q4",
+      "2021Q1",
+      "2021Q2",
+      "2021Q3",
+      "2021Q4",
+      "2022Q1",
+      "2022Q2",
+      "2022Q3",
+      "2022Q4",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2023Q4",
+      "2024Q1",
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4",
+      "2026Q1",
+      "2026Q2"
+    ],
+    "train": "2018Q1\u20132022Q4"
+  },
+  "deployment_regime_B": {
+    "ci95": [
+      -0.0004019376840986327,
+      0.00045736541077845687
+    ],
+    "delta": -7.3617013966909e-05,
+    "min_stage_retention": 0.5,
+    "p": 0.537
+  },
+  "dev_gate_pass": false,
+  "dev_gate_reasons": [
+    "Proposed \u2248 global \u03c3\u0302 \u03c1=0.997 (age-cal adds negligible ranking signal)",
+    "Proposed does not beat strongest baseline score_global_individualized on DEV (\u0394=0.0000)"
+  ],
+  "exploratory_verdict": "NOT_SUPPORTED",
+  "feasibility": "PASS",
+  "full_name": "Stage-Constrained Selective Prediction for Developmental Pharmacovigilance",
+  "generated_at": "2026-09-27T13:09:44.453414-07:00",
+  "language": "FAERS pharmacovigilance reporting signals \u2014 NOT incidence, causal, or individual risk. Empirical coverage only under temporal shift.",
+  "most_important_limitation": "Eval block 2024\u20132026 is reused-period exploratory (DART already examined); no unused later FAERS quarter for confirmatory; temporal shift undermines exact conformal guarantees; DEV gate FAILED: Proposed \u2248 global \u03c3\u0302 \u03c1=0.997 (age-cal adds negligible ranking signal); Proposed does not beat strongest baseline score_global_individualized on DEV (\u0394=0.0000)",
+  "neonate_infant": {
+    "baseline_A75_ret_Infant": 0.7506925207756233,
+    "baseline_A75_ret_Neonate": 0.75,
+    "infant_n": 361,
+    "neonate_n": 112,
+    "proposed_A75_ret_Infant": 0.7506925207756233,
+    "proposed_A75_ret_Neonate": 0.75,
+    "proposed_B75_ret_Infant": 0.4986149584487535,
+    "proposed_B75_ret_Neonate": 0.5
+  },
+  "novelty_verdict": "GAP_ADDRESSED_AS_EXTENSION",
+  "pact_fidelity": {
+    "faithful_elements": [
+      "scale model fit on method_dev absolute residuals from pre-outcome features",
+      "scaled conformal scores |r|/\u03c3\u0302 with group-conditional quantiles (age as group, analogous to PACT endpoint conditioning)",
+      "abstention score = prediction-time interval width 2*q*\u03c3\u0302",
+      "never uses eval |y-\u0177| for abstention"
+    ],
+    "label": "PACT-style scoring reconstructed on B4",
+    "may_label_as_PACT_on_B4": true,
+    "note": "Methodology-faithful adaptation of PACT normalized-CP abstention score; not bit-identical to molecular PACT pipeline",
+    "unfaithful_or_adapted": [
+      "PACT locality/Tanimoto chemical features unavailable on FAERS cells \u2014 replaced with support/SE/age/disagreement features",
+      "PACT domain was molecular multi-endpoint; here single target log_ror_eb",
+      "PACT numbers from prior project NOT copied",
+      "Labeled PACT-on-B4 uses GLOBAL scaled width (normalized CP core); age-Mondrian localization + fallback inflation reserved for proposed"
+    ]
+  },
+  "primary": {
+    "block_label": "exploratory/reused-period 2024\u20132026",
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "delta_mae_proposed_minus_baseline": 0.0,
+    "mae_baseline": 0.540055644817939,
+    "mae_proposed": 0.540055644817939,
+    "p": 1.0,
+    "practical_effect_threshold": -0.02,
+    "regime": "A_fair_identical_stage_quota",
+    "retention": 0.75,
+    "strongest_baseline": "score_global_individualized"
+  },
+  "project": "SCSP",
+  "within_stage_variation": {
+    "mondrian_note": "Ordinary age-Mondrian has constant width within stage \u2014 methodological failure for within-stage ranking",
+    "mondrian_ok": false,
+    "proposed_ok": true
+  }
+}

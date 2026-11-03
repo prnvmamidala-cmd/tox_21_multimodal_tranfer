@@ -1,0 +1,36 @@
+name: full
+note: >
+  Full command. Not executed in the reduced study. Inner scaffold GroupKFold
+  selects the ridge alpha on training rows only. Bootstrap uses 2000 resamples.
+models:
+  ridge:
+    alpha_mode: inner_groupkfold
+  rf:
+    enabled: true
+    adult_oof: true
+    n_estimators: 200
+    max_depth: 16
+    min_samples_leaf: 2
+    representations:
+      - chem
+      - bio
+      - early
+      - missingness
+      - chem_permuted_bio_seed_101
+      - chem_permuted_bio_seed_202
+      - chem_permuted_bio_seed_303
+      - chem_permuted_bio_seed_404
+      - chem_permuted_bio_seed_505
+  xgb:
+    enabled: true
+    adult_oof: true
+    n_estimators: 200
+    max_depth: 4
+    learning_rate: 0.05
+    representations:
+      - chem
+      - bio
+      - early
+      - chem_permuted_bio_seed_101
+transfer:
+  bootstrap_n: 2000

@@ -1,0 +1,24 @@
+{
+  "vocab": [
+    "CHEMBL612545",
+    "CHEMBL3879801",
+    "CHEMBL240",
+    "CHEMBL1293235",
+    "CHEMBL340",
+    "CHEMBL229",
+    "CHEMBL364",
+    "CHEMBL238",
+    "CHEMBL228",
+    "CHEMBL1833",
+    "CHEMBL222",
+    "CHEMBL224",
+    "CHEMBL234",
+    "CHEMBL233",
+    "CHEMBL256"
+  ],
+  "n_adult": 2856,
+  "min_coverage": 0.05,
+  "cap": 256,
+  "representation_name": "chembl_target_profile",
+  "note": "NOT Chemical Checker BioFeat"
+}

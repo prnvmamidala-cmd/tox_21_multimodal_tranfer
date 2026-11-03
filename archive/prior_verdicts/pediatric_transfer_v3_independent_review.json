@@ -1,0 +1,70 @@
+{
+  "critical_issues": [
+    {
+      "id": "C1",
+      "title": "Structure-seen dominance of transfer signal",
+      "detail": "634/835 pediatric structures appear in adult training (identical InChIKey). Structure-unseen mean XGB Spearman ~0.02 for chem; overall mean ~0.12 is largely continuity of same-drug incidence, not chemical generalization."
+    },
+    {
+      "id": "C2",
+      "title": "Extremely sparse ChEMBL target vocabulary",
+      "detail": "Adult-coverage filter (min 5%) + cap 256 yielded only 15 targets (30 dims with miss indicators). Mean per-target missingness ~92%; only ~38% of compounds have any non-missing target. Multimodal hypothesis tests a weak bio channel."
+    },
+    {
+      "id": "C3",
+      "title": "Only BH-significant multimodal contrast is NEGATIVE",
+      "detail": "ANY_OTHER_AE: chem_true_bio \u2212 chem \u0394\u2248\u22120.091, p_BH=0.015. No BH-significant positive true\u2212chem. True bio does not systematically beat permutation controls."
+    }
+  ],
+  "minor_issues": [
+    {
+      "id": "M1",
+      "title": "Pediatric structure count fell prelim\u2192v3",
+      "detail": "927\u2192835 ped structures after completing adult-priority deferred mappings (alias consolidation / remapping); not a pediatric expansion."
+    },
+    {
+      "id": "M2",
+      "title": "Keyword fallback for MedDRA SOC mapping",
+      "detail": "Frozen KEYWORD_MAP (60 terms) used when SOC absent; risk of misclassification / under-coverage for rare SOCs."
+    },
+    {
+      "id": "M3",
+      "title": "MAX-within-arm aggregation",
+      "detail": "Within arm/category uses MAX affected (not sum); can undercount multi-term events or overweight single high-count term depending on coding."
+    },
+    {
+      "id": "M4",
+      "title": "Smoothed incidence not causal",
+      "detail": "(a+0.5)/(n+1) logit is a CT.gov reporting construct; confounding by indication and trial design remain."
+    },
+    {
+      "id": "M5",
+      "title": "EudraVigilance unavailable",
+      "detail": "External PV limited to FAERS ROR (openFDA 25k+25k); EV validation pending."
+    },
+    {
+      "id": "M6",
+      "title": "Permutation applies to adult train only",
+      "detail": "Pediatric test keeps true bio under chem_permuted_* models \u2014 appropriate control for destroyed chem\u2013bio association in training, but not a full shuffle of the joint feature space at test time."
+    },
+    {
+      "id": "M7",
+      "title": "Mapping OK rate 56.8%",
+      "detail": "1216 unresolved + 6134 excluded; selection toward better-annotated drugs may bias chem/bio coverage."
+    }
+  ],
+  "confirmed_ok": [
+    "Zero-shot primary: adult-only fit; pediatric labels never used for primary training",
+    "Chem preprocess (median/impute/constants/clip) fit on adult only",
+    "chembl_target_profile is NOT Chemical Checker / BioFeat",
+    "Adult-only target vocabulary construction",
+    "FAERS not mixed into CT incidence targets (estimate_type=clinical_trial_smoothed_incidence only)",
+    "Deferred names adult-only (deferred_in_pediatric=0); early-stop removed in v3",
+    "Scaffold/grouped CV used for XGB HP tuning on adult only; HPs frozen before ped eval",
+    "Seen/unseen structure and scaffold performance reported separately",
+    "BH correction across endpoint true\u2212chem contrasts; bootstrap n=2000",
+    "Hypothesis verdict REJECTS multimodal benefit; prelim and final agree"
+  ],
+  "reproduction_status": "MATCHED",
+  "primary_verdict_preserved": "REJECTS"
+}

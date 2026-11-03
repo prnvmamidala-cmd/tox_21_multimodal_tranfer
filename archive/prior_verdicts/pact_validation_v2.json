@@ -1,0 +1,108 @@
+{
+  "hypothesis": "PACT produces narrower useful PIs for pediatric drug-outcome rates with reliable empirical coverage, especially under sparse pediatric evidence.",
+  "reproduction": "passed",
+  "interval_efficiency_advantage": "inconclusive",
+  "subgroup_reliability": "supported",
+  "external_validity": "not_tested",
+  "aaai_workshop_readiness": "careful_empirical_study",
+  "primary_contrast": {
+    "nominal": 0.9,
+    "best_competitor_cal_selected": "B7_indiv_scale",
+    "selection_rule": "min_cal_width_among_coverage_valid",
+    "pact_cov": 0.9023543990086741,
+    "pact_width": 5.251112419682797,
+    "best_cov": 0.914993804213135,
+    "best_width": 5.387602960857372,
+    "bootstrap_width_vs_best": {
+      "metric": "mean_width",
+      "delta": -0.1364905411745747,
+      "ci_lo": -0.18503412595992821,
+      "ci_hi": -0.08461949045360535,
+      "p": 0.0,
+      "n_boot": "2000",
+      "n_structures": "501",
+      "obs_a": 5.251112419682797,
+      "obs_b": 5.387602960857372,
+      "comparison": "PACT_vs_B7_indiv_scale_mean_width",
+      "method_a": "PACT",
+      "method_b": "B7_indiv_scale"
+    },
+    "bootstrap_coverage_vs_best": {
+      "metric": "coverage",
+      "delta": -0.01263940520446094,
+      "ci_lo": -0.017077010573328916,
+      "ci_hi": -0.008422095615556176,
+      "p": 0.0,
+      "n_boot": "2000",
+      "n_structures": "501",
+      "obs_a": 0.9023543990086741,
+      "obs_b": 0.914993804213135,
+      "comparison": "PACT_vs_B7_indiv_scale_coverage",
+      "method_a": "PACT",
+      "method_b": "B7_indiv_scale"
+    },
+    "b7_erases_advantage": true,
+    "near_equivalent_to_B7": false
+  },
+  "selective_secondary": {
+    "original_primary_mae_pact_50": 1.187914639315471,
+    "original_disagreement_mae_pact_50": 1.187914639315471,
+    "original_width_mae_pact_50": 0.943546493694402,
+    "original_width_mae_global_50": 1.2909044654878807,
+    "original_width_mae_mondrian_50": 1.1561617833255973,
+    "original_width_mae_denom_50": 1.1365135958559325,
+    "original_pact_vs_global_primary_delta": 0.0,
+    "claim_pact_specific_ranking": false,
+    "reason": "Original primary abstention MAE equals disagreement MAE (1.188) for all methods; width-abstention 0.944 is secondary and partly reflects adaptive widths vs constant global width."
+  },
+  "repeated_splits": [
+    {
+      "method": "B4_global",
+      "cov_mean": 0.9021561338289963,
+      "cov_std": 0.01047284711531419,
+      "width_mean": 5.711353280287866,
+      "width_std": 0.13725009114942321,
+      "n_seeds": 10
+    },
+    {
+      "method": "B7_indiv_scale",
+      "cov_mean": 0.9005947955390334,
+      "cov_std": 0.009831307965759371,
+      "width_mean": 4.998210964127187,
+      "width_std": 0.1252139178959753,
+      "n_seeds": 10
+    },
+    {
+      "method": "B8_scale_mondrian",
+      "cov_mean": 0.915266418835192,
+      "cov_std": 0.009392525889499785,
+      "width_mean": 5.325150079679053,
+      "width_std": 0.13318258122547819,
+      "n_seeds": 10
+    },
+    {
+      "method": "PACT",
+      "cov_mean": 0.8983643122676579,
+      "cov_std": 0.009733640541465395,
+      "width_mean": 4.973875132923763,
+      "width_std": 0.13820698422369143,
+      "n_seeds": 10
+    }
+  ],
+  "point_prediction_claim": "NONE \u2014 point predictor may remain weak; PACT does not claim improved point prediction.",
+  "formal_conformal_guarantee": false,
+  "notes": [
+    "Final-test reuse is exploratory for new claims; reproduction audit confirms original numbers.",
+    "No compatible independent pediatric CT incidence cohort found.",
+    "Age-band confirmatory subgroups OFF (SO age_bucket pediatric only; ages are strings).",
+    "Primary abstention ranking matched ensemble disagreement in original artifacts \u2014 no PACT-specific ranking claim.",
+    "Empirically matched coverage on final-test is DESCRIPTIVE ONLY.",
+    "Primary cal-selected competitor is B7_indiv_scale (normalized conformal with same scale features; no locality).",
+    "PACT vs B7 at nominal 90%: width Delta=-0.136 (95% CI [-0.185,-0.085]); statistically significant but does NOT meet prespecified meaningful threshold (CI entirely < -0.10).",
+    "Repeated splits: PACT width 4.974+/-0.138 vs B7 4.998+/-0.125 \u2014 practically tied; locality adds little beyond individualized scale.",
+    "DESCRIPTIVE matched-cov widths identical for PACT/B7/B8 (5.107) because they share the same sigma-hat; global matched 5.652.",
+    "Width-abstention MAE@50%: B7 0.927 vs PACT 0.944 \u2014 individualized scale alone matches/beats PACT ranking; do not claim PACT-specific selective gain.",
+    "vs Global (not primary competitor): clear width advantage Delta=-0.832 CI entirely below -0.10 with coverage still in [0.85,0.95]."
+  ],
+  "honest_summary": "PACT reproduces and maintains ~nominal coverage with narrower intervals than global/Mondrian/denom baselines. Against the strongest fair baseline (individualized residual-scale conformal, B7), the remaining locality-driven width gain is small, not protocol-meaningful, and nearly absent across repeated splits. Selective primary ranking was disagreement-tied (not PACT-specific). No independent pediatric CT cohort. Suitable as a careful empirical workshop study, not a method-paper claim of new guarantees."
+}
